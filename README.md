@@ -1,4 +1,4 @@
-<p class="lead">Insanely fast and accurate (<b>99.8%</b>) MICR E-13B & CMC-7 detectors and recognizers using deep learning. </p>
+<p class="lead">Insanely fast and accurate (<b>99.8%</b>) <a href="https://en.wikipedia.org/wiki/Magnetic_ink_character_recognition" target="_blank">MICR E-13B & CMC-7</a> detectors and recognizers using deep learning. </p>
             <p> 
                 Automating Bank account information extraction from MICR (Magnetic ink character recognition) zones on scanned checks/document <b>above human-level accuracy</b> is a very challenging task. 
                 Our implementation reaches such level of accuracy using latest deep learning techniques. We outperforms both <a href="https://www.abbyy.com/ocr_sdk/" target="_blank">ABBYY</a> and <a href="https://demo.leadtools.com/JavaScript/BankCheckReader/" target="_blank">LEADTOLS</a> in terms of accuracy and speed (<b>almost #30 times faster</b>). <br />
