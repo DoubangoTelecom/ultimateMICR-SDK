@@ -1,0 +1,13 @@
+The computer font CMC7 was created by Harold Lohner, 1998, and placed into the public domain by him.
+
+CMC7 is based on an early machine-readable, magnetic-ink font of the same name. A-Z and 1-9 are authentic. I made up the rest following the pattern.
+
+Version 2 contains extra characters at the { | } [ ] positions.  I have learned that this font is still used--with those characters on checks in Europe.  It was not my intention to make a font that would actually be readable to machines; I intend only to mimic the look of the original.
+
+Let me know what you do with this!
+
+
+
+Harold Lohner
+HLohner@aol.com
+http://members.aol.com/fontner

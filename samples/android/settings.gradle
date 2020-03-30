@@ -1,0 +1,2 @@
+include ':sdk', ':benchmark', ':micrvideorecognizer-e13b', ':micrvideorecognizer-cmc7'
+rootProject.name='ultimateMICR'
