@@ -1,4 +1,4 @@
-/* Copyright (C) 2016-2020 Doubango Telecom <https://www.doubango.org>
+/* Copyright (C) 2011-2020 Doubango Telecom <https://www.doubango.org>
 * File author: Mamadou DIOP (Doubango Telecom, France).
 * License: For non commercial use only.
 * Source code: https://github.com/DoubangoTelecom/ultimateMICR-SDK
@@ -15,7 +15,7 @@ ultimateMICR-SDK public header
 
 #define ULTMICR_SDK_VERSION_MAJOR		2
 #define ULTMICR_SDK_VERSION_MINOR		0
-#define ULTMICR_SDK_VERSION_MICRO		0
+#define ULTMICR_SDK_VERSION_MICRO		1
 
 // Windows's symbols export
 #if defined(SWIG)
