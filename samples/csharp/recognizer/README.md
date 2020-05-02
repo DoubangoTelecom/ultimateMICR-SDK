@@ -3,6 +3,9 @@
 - [Testing](#testing)
   - [Usage](#testing-usage)
   - [Examples](#testing-examples)
+- [Character Mapping](#character-mapping)
+  - [CMC-7](#character-mapping-cmc7)
+  - [E-13B](#character-mapping-e13b)
 
 
 This application is a reference implementation for developers to show how to use the C# API and could
@@ -68,4 +71,15 @@ recognizer.exe \
     --format "e13b+cmc7"
 ```
 
+<a name="character-mapping"></a>
+# Character Mapping #
+This is a command-line application and the console doesn't support CMC-7 and E-13B fonts. The special characters will be mapped to ASCII alphabet as follow:
+
+<a name="character-mapping-cmc7"></a>
+## CMC-7 ##
+![CMC-7 mapping](../../../cmc7_mapping.jpg)
+
+<a name="character-mapping-e13b"></a>
+## E-13B ##
+![E-13B mapping](../../../e13b_mapping.jpg)
 
