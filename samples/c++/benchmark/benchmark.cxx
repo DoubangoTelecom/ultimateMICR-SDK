@@ -13,6 +13,7 @@
 			--positive <path-to-image-with-micr-zone> \
 			--negative <path-to-image-without-micr-zone> \
 			[--assets <path-to-assets-folder>] \
+			[--format <format-for-dtection:e13b/cmc7/e13b+cmc7>] \
 			[--loops <number-of-times-to-run-the-loop:[1, inf]>] \
 			[--rate <positive-rate:[0.0, 1.0]>] \
 			[--tokenfile <path-to-license-token-file>] \
@@ -51,7 +52,6 @@ static const char* __jsonConfig =
 "\"num_threads\": -1,"
 "\"gpgpu_enabled\": true,"
 ""
-"\"format\": \"e13b\","
 "\"segmenter_accuracy\": \"high\","
 "\"interpolation\": \"bilinear\","
 "\"roi\": [0, 0, 0, 0],"
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 {
 	// local variables
 	UltMicrSdkResult result(0, "OK", "{}");
-	std::string assetsFolder, licenseTokenData, licenseTokenFile;
+	std::string assetsFolder, format = "e13b+cmc7", licenseTokenData, licenseTokenFile;
 	size_t loopCount = 100;
 	double percentPositives = .2; // 20%
 	std::string pathFilePositive;
@@ -119,6 +119,9 @@ int main(int argc, char *argv[])
 		std::replace(assetsFolder.begin(), assetsFolder.end(), '\\', '/');
 #endif
 	}
+	if (args.find("--format") != args.end()) {
+		format = args["--format"];
+	}
 	if (args.find("--tokenfile") != args.end()) {
 		licenseTokenFile = args["--tokenfile"];
 #if defined(_WIN32)
@@ -133,6 +136,9 @@ int main(int argc, char *argv[])
 	std::string jsonConfig = __jsonConfig;
 	if (!assetsFolder.empty()) {
 		jsonConfig += std::string(",\"assets_folder\": \"") + assetsFolder + std::string("\"");
+	}
+	if (!format.empty()) {
+		jsonConfig += std::string(",\"format\": \"") + format + std::string("\"");
 	}
 	if (!licenseTokenFile.empty()) {
 		jsonConfig += std::string(",\"license_token_file\": \"") + licenseTokenFile + std::string("\"");
@@ -243,6 +249,7 @@ static void printUsage(const std::string& message /*= ""*/)
 		"--positive: Path to an image(JPEG/PNG/BMP) with a credit card.This image will be used to evaluate the recognizer. You can use default image at ../../../assets/images/e13b_1280x720.jpg.\n\n"
 		"--negative: Path to an image(JPEG/PNG/BMP) without a credit card.This image will be used to evaluate the decoder. You can use default image at ../../../assets/images/traffic_1280x720.jpg.\n\n"
 		"--assets: Path to the assets folder containing the configuration files and models.Default value is the current folder.\n\n"
+		"--format: Defines the MICR format to enable for the detection. Use \"e13b\" to look for E-13B lines only and \"cmc7\" for CMC-7 lines only. To look for both, use \"e13b+cmc7\". For performance reasons you should not use \"e13b+cmc7\" unless you really expect the document to contain both E-13B and CMC7 lines. Default: \"e13b+cmc7\"\n\n"
 		"--loops: Number of times to run the processing pipeline.\n\n"
 		"--rate: Percentage value within[0.0, 1.0] defining the positive rate. The positive rate defines the percentage of images with a ccard.\n\n"
 		"--tokenfile: Path to the file containing the base64 license token if you have one. If not provided then, the application will act like a trial version. Default: null.\n\n"

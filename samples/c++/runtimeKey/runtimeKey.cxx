@@ -21,6 +21,9 @@
 
 #include <ultimateMICR-SDK-API-PUBLIC.h>
 #include "../micr_utils.h"
+#if defined(_WIN32)
+#include <algorithm> // std::replace
+#endif
 
 using namespace ultimateMicrSdk;
 
@@ -43,7 +46,11 @@ int main(int argc, char *argv[])
 	}
 	std::string jsonConfig;
 	if (args.find("--assets") != args.end()) {
-		jsonConfig = std::string("{ \"assets_folder\": \"") + args["--assets"] + std::string("\" }");
+		std::string assetsFolder = args["--assets"];
+#if defined(_WIN32)
+		std::replace(assetsFolder.begin(), assetsFolder.end(), '\\', '/');
+#endif
+		jsonConfig = std::string("{ \"assets_folder\": \"") + assetsFolder + std::string("\" }");
 	}
 	else {
 		jsonConfig = "{}";

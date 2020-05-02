@@ -4,18 +4,19 @@
     - [Benchmark](#Sample-applications-Benchmark)
     - [Trying the samples](#Sample-applications-Trying-the-samples)
       - [Android](#Sample-applications-Trying-the-samples-Android)
-      - [Raspberry Pi and Others](#Sample-applications-Trying-the-samples-Raspberry-Pi-and-Others)
+      - [Linux, Windows, Raspberry Pi and Others](#Sample-applications-Trying-the-samples-Raspberry-Pi-and-Others)
 - [Getting-started](#Getting-started)
   - [Adding the SDK to your project](#Getting-started-Adding-the-SDK-to-your-project)
     - [Android](#Getting-started-Adding-the-SDK-to-your-project-Android)
-    - [Raspberry Pi, Windows and Others](#Getting-started-Adding-the-SDK-to-your-project-Raspberry-Pi-Windows-and-Others)
+    - [Linux, Windows, Raspberry Pi and Others](#Getting-started-Adding-the-SDK-to-your-project-Raspberry-Pi-Windows-and-Others)
    - [Using the API](#Getting-started-Using-the-API)
      - [Android (Java)](#Getting-started-Using-the-API-Android-Java)
-     - [iOS, Windows, Raspberry Pi and Others (C++)](#Getting-started-Using-the-API-iOS-Windows-Raspberry-Pi-and-Others-Cpp)
+     - [Linux, Windows, Raspberry Pi and Others (C++)](#Getting-started-Using-the-API-Linux-Windows-Raspberry-Pi-and-Others-Cpp)
  - [Getting help](#technical-questions)
   
  - Full documentation at https://www.doubango.org/SDKs/micr/docs/
  - Online demo at https://www.doubango.org/webapps/micr/
+ - Open source Computer Vision library: https://github.com/DoubangoTelecom/compv
   
 <hr />
 
@@ -79,16 +80,16 @@ This application is used to check everything is ok and running as fast as expect
 
 To try the sample applications on Android:
 - Open Android Studio and select **Open an existing Android Studio project**
-    ![alt text](https://www.doubango.org/SDKs/micr/docs/_images/android_studio_open_existing_project.jpg "Open an existing Android Studio project")
+    ![Open an existing Android Studio project](https://www.doubango.org/SDKs/micr/docs/_images/android_studio_open_existing_project.jpg "Open an existing Android Studio project")
    
  - Navigate to [**<ultimateMICR-SDK>/samples**](samples), select **android** folder and click **Open**
-    ![alt text](https://www.doubango.org/SDKs/micr/docs/_images/android_studio_select_samples_android.jpg "Select project")
+    ![Select project](https://www.doubango.org/SDKs/micr/docs/_images/android_studio_select_samples_android.jpg "Select project")
 
 - Select the sample you want to try (e.g. **videorecognize**), the device (e.g. **samsung SM-G975F**) and press **run**
-    ![alt text](https://www.doubango.org/SDKs/micr/docs/_images/android_studio_select_samples_videorecognizer.jpg "Select sample")
+    ![Select sample](https://www.doubango.org/SDKs/micr/docs/_images/android_studio_select_samples_videorecognizer.jpg "Select sample")
 
 <a name="Sample-applications-Trying-the-samples-Raspberry-Pi-and-Others"></a>
-### Raspberry Pi and Others ###
+### Linux, Windows, Raspberry Pi and Others ###
 For Raspberry Pi and other Linux systems you need to build the sample applications from source. More info at [samples/c++/README.md](samples/c++/README.md).
 
 
@@ -120,7 +121,7 @@ android {
 ```
 
 <a name="Getting-started-Adding-the-SDK-to-your-project-Raspberry-Pi-Windows-and-Others"></a>
-### Raspberry Pi, Windows and Others ###
+### Linux, Windows, Raspberry Pi and Others ###
 
 The shared libraries are under [**ultimateMICR-SDK/binaries/<platform>**](binaries). The header file at [c++](c++). You can use any C++ compiler/linker.
 
@@ -214,8 +215,8 @@ The C++ API is defined at https://www.doubango.org/SDKs/micr/docs/cpp-api.html.
 	}
  ```
  
- <a name="Getting-started-Using-the-API-iOS-Windows-Raspberry-Pi-and-Others-Cpp"></a>
- ### iOS, Windows, Raspberry Pi and Others (C++) ###
+ <a name="Getting-started-Using-the-API-Linux-Windows-Raspberry-Pi-and-Others-Cpp"></a>
+ ### Linux, Windows, Raspberry Pi and Others (C++) ###
 
 ```cpp
 	#include <ultimateMICR-SDK-API-PUBLIC.h> // Include the API header file
@@ -267,7 +268,7 @@ The C++ API is defined at https://www.doubango.org/SDKs/micr/docs/cpp-api.html.
 	ULTMICR_SDK_ASSERT((result = UltMicrSdkEngine::deInit()).isOK());
 ```
 
-Again, please check the [sample applications](Sample-applications) for more information on how to use the API.
+Again, please check the [sample applications](#Sample-applications) for more information on how to use the API.
 
 
 <a name="Technical-questions"></a>

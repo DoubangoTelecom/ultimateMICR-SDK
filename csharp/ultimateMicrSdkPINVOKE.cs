@@ -34,7 +34,7 @@ class ultimateMicrSdkPINVOKE {
     static ExceptionArgumentDelegate argumentNullDelegate = new ExceptionArgumentDelegate(SetPendingArgumentNullException);
     static ExceptionArgumentDelegate argumentOutOfRangeDelegate = new ExceptionArgumentDelegate(SetPendingArgumentOutOfRangeException);
 
-    [DllImport("ultimateMicrSdk", EntryPoint="SWIGRegisterExceptionCallbacks_ultimateMicrSdk")]
+    [DllImport("ultimateMICR-SDK", EntryPoint="SWIGRegisterExceptionCallbacks_ultimateMicrSdk")]
     public static extern void SWIGRegisterExceptionCallbacks_ultimateMicrSdk(
                                 ExceptionDelegate applicationDelegate,
                                 ExceptionDelegate arithmeticDelegate,
@@ -48,7 +48,7 @@ class ultimateMicrSdkPINVOKE {
                                 ExceptionDelegate overflowDelegate, 
                                 ExceptionDelegate systemExceptionDelegate);
 
-    [DllImport("ultimateMicrSdk", EntryPoint="SWIGRegisterExceptionArgumentCallbacks_ultimateMicrSdk")]
+    [DllImport("ultimateMICR-SDK", EntryPoint="SWIGRegisterExceptionArgumentCallbacks_ultimateMicrSdk")]
     public static extern void SWIGRegisterExceptionCallbacksArgument_ultimateMicrSdk(
                                 ExceptionArgumentDelegate argumentDelegate,
                                 ExceptionArgumentDelegate argumentNullDelegate,
@@ -170,7 +170,7 @@ class ultimateMicrSdkPINVOKE {
     public delegate string SWIGStringDelegate(string message);
     static SWIGStringDelegate stringDelegate = new SWIGStringDelegate(CreateString);
 
-    [DllImport("ultimateMicrSdk", EntryPoint="SWIGRegisterStringCallback_ultimateMicrSdk")]
+    [DllImport("ultimateMICR-SDK", EntryPoint="SWIGRegisterStringCallback_ultimateMicrSdk")]
     public static extern void SWIGRegisterStringCallback_ultimateMicrSdk(SWIGStringDelegate stringDelegate);
 
     static string CreateString(string cString) {
@@ -189,76 +189,76 @@ class ultimateMicrSdkPINVOKE {
   }
 
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_ULTMICR_SDK_VERSION_MAJOR_get")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_ULTMICR_SDK_VERSION_MAJOR_get")]
   public static extern int ULTMICR_SDK_VERSION_MAJOR_get();
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_ULTMICR_SDK_VERSION_MINOR_get")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_ULTMICR_SDK_VERSION_MINOR_get")]
   public static extern int ULTMICR_SDK_VERSION_MINOR_get();
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_ULTMICR_SDK_VERSION_MICRO_get")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_ULTMICR_SDK_VERSION_MICRO_get")]
   public static extern int ULTMICR_SDK_VERSION_MICRO_get();
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_new_UltMicrSdkResult__SWIG_0")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_new_UltMicrSdkResult__SWIG_0")]
   public static extern IntPtr new_UltMicrSdkResult__SWIG_0(int jarg1, string jarg2, string jarg3, uint jarg4);
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_new_UltMicrSdkResult__SWIG_1")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_new_UltMicrSdkResult__SWIG_1")]
   public static extern IntPtr new_UltMicrSdkResult__SWIG_1(int jarg1, string jarg2, string jarg3);
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_delete_UltMicrSdkResult")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_delete_UltMicrSdkResult")]
   public static extern void delete_UltMicrSdkResult(HandleRef jarg1);
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_UltMicrSdkResult_code")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_UltMicrSdkResult_code")]
   public static extern int UltMicrSdkResult_code(HandleRef jarg1);
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_UltMicrSdkResult_phrase")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_UltMicrSdkResult_phrase")]
   public static extern string UltMicrSdkResult_phrase(HandleRef jarg1);
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_UltMicrSdkResult_json")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_UltMicrSdkResult_json")]
   public static extern string UltMicrSdkResult_json(HandleRef jarg1);
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_UltMicrSdkResult_numZones")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_UltMicrSdkResult_numZones")]
   public static extern uint UltMicrSdkResult_numZones(HandleRef jarg1);
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_UltMicrSdkResult_isOK")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_UltMicrSdkResult_isOK")]
   public static extern bool UltMicrSdkResult_isOK(HandleRef jarg1);
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_UltMicrSdkEngine_init__SWIG_0")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_UltMicrSdkEngine_init__SWIG_0")]
   public static extern IntPtr UltMicrSdkEngine_init__SWIG_0(string jarg1);
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_UltMicrSdkEngine_init__SWIG_1")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_UltMicrSdkEngine_init__SWIG_1")]
   public static extern IntPtr UltMicrSdkEngine_init__SWIG_1();
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_UltMicrSdkEngine_deInit")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_UltMicrSdkEngine_deInit")]
   public static extern IntPtr UltMicrSdkEngine_deInit();
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_UltMicrSdkEngine_process__SWIG_0")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_UltMicrSdkEngine_process__SWIG_0")]
   public static extern IntPtr UltMicrSdkEngine_process__SWIG_0(int jarg1, IntPtr jarg2, uint jarg3, uint jarg4, uint jarg5, int jarg6);
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_UltMicrSdkEngine_process__SWIG_1")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_UltMicrSdkEngine_process__SWIG_1")]
   public static extern IntPtr UltMicrSdkEngine_process__SWIG_1(int jarg1, IntPtr jarg2, uint jarg3, uint jarg4, uint jarg5);
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_UltMicrSdkEngine_process__SWIG_2")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_UltMicrSdkEngine_process__SWIG_2")]
   public static extern IntPtr UltMicrSdkEngine_process__SWIG_2(int jarg1, IntPtr jarg2, uint jarg3, uint jarg4);
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_UltMicrSdkEngine_process__SWIG_3")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_UltMicrSdkEngine_process__SWIG_3")]
   public static extern IntPtr UltMicrSdkEngine_process__SWIG_3(int jarg1, IntPtr jarg2, IntPtr jarg3, IntPtr jarg4, uint jarg5, uint jarg6, uint jarg7, uint jarg8, uint jarg9, uint jarg10, int jarg11);
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_UltMicrSdkEngine_process__SWIG_4")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_UltMicrSdkEngine_process__SWIG_4")]
   public static extern IntPtr UltMicrSdkEngine_process__SWIG_4(int jarg1, IntPtr jarg2, IntPtr jarg3, IntPtr jarg4, uint jarg5, uint jarg6, uint jarg7, uint jarg8, uint jarg9, uint jarg10);
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_UltMicrSdkEngine_process__SWIG_5")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_UltMicrSdkEngine_process__SWIG_5")]
   public static extern IntPtr UltMicrSdkEngine_process__SWIG_5(int jarg1, IntPtr jarg2, IntPtr jarg3, IntPtr jarg4, uint jarg5, uint jarg6, uint jarg7, uint jarg8, uint jarg9);
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_UltMicrSdkEngine_requestRuntimeLicenseKey__SWIG_0")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_UltMicrSdkEngine_requestRuntimeLicenseKey__SWIG_0")]
   public static extern IntPtr UltMicrSdkEngine_requestRuntimeLicenseKey__SWIG_0(bool jarg1);
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_UltMicrSdkEngine_requestRuntimeLicenseKey__SWIG_1")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_UltMicrSdkEngine_requestRuntimeLicenseKey__SWIG_1")]
   public static extern IntPtr UltMicrSdkEngine_requestRuntimeLicenseKey__SWIG_1();
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_UltMicrSdkEngine_warmUp")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_UltMicrSdkEngine_warmUp")]
   public static extern IntPtr UltMicrSdkEngine_warmUp(int jarg1);
 
-  [DllImport("ultimateMicrSdk", EntryPoint="CSharp_delete_UltMicrSdkEngine")]
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_delete_UltMicrSdkEngine")]
   public static extern void delete_UltMicrSdkEngine(HandleRef jarg1);
 }
 

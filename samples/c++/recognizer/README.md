@@ -1,3 +1,4 @@
+- [Pre-built binaries](#prebuilt)
 - [Building](#building)
   - [Windows](#building-windows)
   - [Generic GCC](#building-generic-gcc)
@@ -5,6 +6,9 @@
 - [Testing](#testing)
   - [Usage](#testing-usage)
   - [Examples](#testing-examples)
+- [Character Mapping](#character-mapping)
+  - [CMC-7](#character-mapping-cmc7)
+  - [E-13B](#character-mapping-e13b)
 
 
 This application is used as reference code for developers to show how to use the [C++ API](https://www.doubango.org/SDKs/micr/docs/cpp-api.html) and could
@@ -15,6 +19,17 @@ our cloud-based solution at [https://www.doubango.org/webapps/micr/](https://www
 
 This sample is open source and doesn't require registration or license key.
 
+<a name="prebuilt"></a>
+# Pre-built binaries #
+
+If you don't want to build this sample by yourself then, use the pre-built versions:
+ - Windows: [recognizer.exe](../../../binaries/windows/x86_64/recognizer.exe) under [binaries/windows/x86_64](../../../binaries/windows/x86_64)
+ - Linux: [recognizer](../../../binaries/linux/x86_64/recognizer) under [binaries/linux/x86_64](../../../binaries/linux/x86_64). Built on Ubuntu 18. **You'll need to download libtensorflow.so as explained [here](../README.md#gpu-acceleration-tensorflow-linux)**.
+ - Raspberry Pi: [recognizer](../../../binaries/raspbian/armv7l/recognizer) under [binaries/raspbian/armv7l](../../../binaries/raspbian/armv7l)
+ - Android: check [android](../../android) folder
+ 
+On **Windows**, the easiest way to try this sample is to navigate to [binaries/windows/x86_64](../../../binaries/windows/x86_64/) and run [binaries/windows/x86_64/recognizer_cmc7.bat](../../../binaries/windows/x86_64/recognizer_cmc7.bat) or [binaries/windows/x86_64/recognizer_e13b.bat](../../../binaries/windows/x86_64/recognizer_e13b.bat). You can edit these files to use your own images and configuration options.
+
 <a name="building"></a>
 # Building #
 
@@ -22,7 +37,14 @@ This sample contains [a single C++ source file](recognizer.cxx) and is easy to b
 
 <a name="building-windows"></a>
 ## Windows ##
-You'll need Visual Studio and the project is at [recognizer.vcxproj](recognizer.vcxproj).
+You'll need Visual Studio to build the code. The VS project is at [recognizer.vcxproj](recognizer.vcxproj). Open it.
+ 1. You will need to change the **"Command Arguments"** like the [below image](../../../VC++_config.jpg). Default value: `--image $(ProjectDir)..\..\..\assets\images\e13b_1280x720.jpg --format e13b+cmc7 --assets $(ProjectDir)..\..\..\assets`
+ 2. You will need to change the **"Environment"** variable like the [below image](../../../VC++_config.jpg). Default value: `PATH=$(VCRedistPaths)%PATH%;$(ProjectDir)..\..\..\binaries\windows\x86_64`
+ 
+![VC++ config](../../../VCpp_config.jpg)
+ 
+You're now ready to build and run the sample.
+
 
 <a name="building-generic-gcc"></a>
 ## Generic GCC ##
@@ -32,7 +54,7 @@ cd ultimateMICR-SDK/samples/c++/recognizer
 
 g++ recognizer.cxx -O3 -I../../../c++ -L../../../binaries/<yourOS>/<yourArch> -lultimate_micr-sdk -o recognizer
 ```
-- You've to change `yourOS` and  `yourArch` with the correct values. For example, on Android ARM64 they would be equal to `android` and `jniLibs/arm64-v8a` respectively.
+- You've to change `yourOS` and  `yourArch` with the correct values. For example, on **Linux x86_64** they would be equal to `linux` and `x86_64` respectively.
 - If you're cross compiling then, you'll have to change `g++` with the correct triplet. For example, on Android ARM64 the triplet would be equal to `aarch64-linux-android-g++`.
 
 <a name="building-rpi"></a>
@@ -61,12 +83,14 @@ recognizer is a command line application with the following usage:
 recognizer \
       --image <path-to-image-with-to-process> \
       [--assets <path-to-assets-folder>] \
+      [--format <format-for-dtection:e13b/cmc7/e13b+cmc7>] \
       [--tokenfile <path-to-license-token-file>] \
       [--tokendata <base64-license-token-data>]
 ```
 Options surrounded with **[]** are optional.
 - `--image` Path to the image(JPEG/PNG/BMP) to process. You can use default image at [../../../assets/images/e13b_1280x720.jpg](../../../assets/images/e13b_1280x720.jpg).
 - `--assets` Path to the [assets](../../../assets) folder containing the configuration files and models. Default value is the current folder.
+- `--format` Defines the MICR format to enable for the detection. Use `e13b` to look for E-13B lines only and `cmc7` for CMC-7 lines only. To look for both, use `e13b+cmc7`. For performance reasons you should not use `e13b+cmc7` unless you really expect the document to contain both E-13B and CMC7 lines. Default: `e13b+cmc7`.
 - `--tokenfile` Path to the file containing the base64 license token if you have one. If not provided then, the application will act like a trial version. Default: *null*.
 - `--tokendata` Base64 license token if you have one. If not provided then, the application will act like a trial version. Default: *null*.
 
@@ -76,16 +100,38 @@ Options surrounded with **[]** are optional.
 For example, on **Raspberry Pi** you may call the recognizer application using the following command:
 ```
 LD_LIBRARY_PATH=../../../binaries/raspbian/armv7l:$LD_LIBRARY_PATH ./recognizer \
-    --image ../../../assets/images/e13b_1280x720.jpg \
-    --assets ../../../assets
+    --image ../../../assets/images/cmc7_1280x720.jpg \
+    --assets ../../../assets \
+    --formay e13b+cmc7
 ```
-On Android ARM64 you may use the next command:
+On **Linux x86_64**, you may use the next command:
 ```
-LD_LIBRARY_PATH=../../../binaries/android/jniLibs/arm64-v8a:$LD_LIBRARY_PATH ./recognizer \
+LD_LIBRARY_PATH=../../../binaries/linux/x86_64:$LD_LIBRARY_PATH ./recognizer \
     --image ../../../assets/images/e13b_1280x720.jpg \
-    --assets ../../../assets
+    --assets ../../../assets \
+    --formay e13b+cmc7
+```
+On **Windows x86_64**, you may use the next command:
+```
+recognizer.exe ^
+    --image ../../../assets/images/e13b_1280x720.jpg ^
+    --assets ../../../assets ^
+    --format e13b+cmc7
 ```
 
 Please note that if you're cross compiling the application then you've to make sure to copy the application and both the [assets](../../../assets) and [binaries](../../../binaries) folders to the target device.
+
+<a name="character-mapping"></a>
+# Character Mapping #
+This is a command-line application and the console doesn't support CMC-7 and E-13B fonts. The special characters will be mapped to ASCII alphabet as follow:
+
+<a name="character-mapping-cmc7"></a>
+## CMC-7 ##
+![CMC-7 mapping](../../../cmc7_mapping.jpg)
+
+<a name="character-mapping-e13b"></a>
+## E-13B ##
+![E-13B mapping](../../../e13b_mapping.jpg)
+
 
 

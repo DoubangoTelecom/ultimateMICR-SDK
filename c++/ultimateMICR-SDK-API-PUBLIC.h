@@ -14,8 +14,8 @@ ultimateMICR-SDK public header
 #include <string>
 
 #define ULTMICR_SDK_VERSION_MAJOR		2
-#define ULTMICR_SDK_VERSION_MINOR		0
-#define ULTMICR_SDK_VERSION_MICRO		1
+#define ULTMICR_SDK_VERSION_MINOR		1
+#define ULTMICR_SDK_VERSION_MICRO		0
 
 // Windows's symbols export
 #if defined(SWIG)
@@ -64,7 +64,7 @@ ultimateMICR-SDK public header
 #	define ULTMICR_SDK_ASSERT(x) do { bool __ULTMICR_SDK_b_ret = (x); assert(__ULTMICR_SDK_b_ret); } while(0)
 #endif /* !NDEBUG */
 
-namespace ultimateMicrSdk  
+namespace ultimateMicrSdk
 {
 	/*! Defines the image types.
 	*/
@@ -99,13 +99,13 @@ namespace ultimateMicrSdk
 		*	More information at https://www.fourcc.org/pixel-format/yuv-nv12/
 		*/
 		ULTMICR_SDK_IMAGE_TYPE_NV12,
-		/*! YUV 4:2:0 image with a plane of 8 bit Y samples followed by an interleaved V/U plane containing 8 bit 2x2 subsampled chroma samples. 
+		/*! YUV 4:2:0 image with a plane of 8 bit Y samples followed by an interleaved V/U plane containing 8 bit 2x2 subsampled chroma samples.
 		* The same as \ref ULTMICR_SDK_IMAGE_TYPE_NV12 except the interleave order of U and V is reversed.
 		*	More information at https://www.fourcc.org/pixel-format/yuv-nv21/
 		*/
 		ULTMICR_SDK_IMAGE_TYPE_NV21,
-		/*! These formats are identical to YV12 except that the U and V plane order is reversed. 
-		* They comprise an NxM Y plane followed by (N/2)x(M/2) U and V planes. 
+		/*! These formats are identical to YV12 except that the U and V plane order is reversed.
+		* They comprise an NxM Y plane followed by (N/2)x(M/2) U and V planes.
 		* This is the format of choice for many software MPEG codecs.
 		* More information at https://www.fourcc.org/pixel-format/yuv-i420/
 		*/
@@ -120,31 +120,36 @@ namespace ultimateMicrSdk
 		/*!  YUV 4:4:4 image with an NxM Y plane followed by NxM V and U planes.
 		*/
 		ULTMICR_SDK_IMAGE_TYPE_YUV444P,
+		/*! Grayscale image with single channel (luminance only). Each pixel is stored in single byte (8 bit Y samples).
+		*
+		* Available since: 2.1.0
+		*/
+		ULTMICR_SDK_IMAGE_TYPE_Y,
 	};
 
 	/*! Result returned by the \ref UltMicrSdkEngine "engine" at initialization, deInitialization and processing stages.
 	*/
-	class UltMicrSdkResult {
+	class ULTIMATE_MICR_SDK_PUBLIC_API UltMicrSdkResult {
 	public:
+		UltMicrSdkResult();
+		UltMicrSdkResult(const int code, const char* phrase, const char* json, const size_t numZones = 0);
+		UltMicrSdkResult(const UltMicrSdkResult& other);
+		virtual ~UltMicrSdkResult();
 #if !defined(SWIG)
-		UltMicrSdkResult() = delete;
-#endif /* SWIG */
-		UltMicrSdkResult(const int code, const char* phrase, const char* json, const size_t numZones = 0)
-		: code_(code), phrase_(phrase), json_(json), numZones_(numZones) {}
-		
-		virtual ~UltMicrSdkResult() {}
+		UltMicrSdkResult& operator=(const UltMicrSdkResult& other) { return operatorAssign(other); }
+#endif
 
 		/*! The result code. 0 if success, nonzero otherwise.
 		*/
 		inline int code()const { return code_; }
 		/*! Short description for the \ref code.
 		*/
-		inline const char* phrase()const { return phrase_.c_str(); }
+		inline const char* phrase()const { return phrase_; }
 		/*! The MICR zones as JSON content string. May be null if no zone found.
 		*/
-		inline const char* json()const { return json_.c_str(); }
+		inline const char* json()const { return json_; }
 		/*! Number of zones in \ref json string. This is a helper function to quickly check whether the result contains zones
-			without parsing the \ref json string.
+		without parsing the \ref json string.
 		*/
 		inline const size_t numZones()const { return numZones_; }
 		/*! Whether the result is success. true if success, false otherwise.
@@ -154,10 +159,17 @@ namespace ultimateMicrSdk
 		static UltMicrSdkResult bodyless(const int code, const char* phrase) { return UltMicrSdkResult(code, phrase, ""); }
 		static UltMicrSdkResult bodylessOK() { return UltMicrSdkResult(0, "OK", ""); }
 #endif /* SWIG */
+
+	private:
+		void ctor(const int code, const char* phrase, const char* json, const size_t numZones);
+#if !defined(SWIG)
+		UltMicrSdkResult& operatorAssign(const UltMicrSdkResult& other);
+#endif /* SWIG */
+
 	private:
 		int code_;
-		std::string phrase_;
-		std::string json_;
+		char* phrase_ = nullptr;
+		char* json_ = nullptr;
 		size_t numZones_;
 	};
 
@@ -173,37 +185,37 @@ namespace ultimateMicrSdk
 
 #if ULTMICR_SDK_OS_ANDROID
 		/*! Initializes the engine. This function must be the first one to call.
-			This function is only available on Android.
-			\param assetManager AssetManager to use to read the content of the "assets" folder containing the models and configuration files.
-			\param jsonConfig JSON string containing configuration entries. May be null. More info at https://www.doubango.org/SDKs/mrz/docs/Configuration_options.html
-			\returns a result
+		This function is only available on Android.
+		\param assetManager AssetManager to use to read the content of the "assets" folder containing the models and configuration files.
+		\param jsonConfig JSON string containing configuration entries. May be null. More info at https://www.doubango.org/SDKs/mrz/docs/Configuration_options.html
+		\returns a result
 		*/
 		static UltMicrSdkResult init(jobject assetManager, const char* jsonConfig = nullptr);
 #else
 		/*! Initializes the engine. This function must be the first one to call.
-			\param jsonConfig JSON string containing configuration entries. May be null. More info at https://www.doubango.org/SDKs/mrz/docs/Configuration_options.html
-			\returns a \ref UltMicrSdkResult "result"
+		\param jsonConfig JSON string containing configuration entries. May be null. More info at https://www.doubango.org/SDKs/mrz/docs/Configuration_options.html
+		\returns a \ref UltMicrSdkResult "result"
 		*/
 		static UltMicrSdkResult init(const char* jsonConfig = nullptr);
 #endif /* ULTMICR_SDK_OS_ANDROID */
 
 		/*! DeInitialize the engine. This function must be the last one to be call.
-			Deallocate all the resources allocated using \ref init function.
-			\returns a \ref UltMicrSdkResult "result"
+		Deallocate all the resources allocated using \ref init function.
+		\returns a \ref UltMicrSdkResult "result"
 		*/
 		static UltMicrSdkResult deInit();
 
 		/*! Performs MICR detection and recognition operations.
-			\param imageType The image type.
-			\param imageData Pointer to the image data.
-			\param imageWidthInSamples Image width in samples.
-			\param imageHeightInSamples Image height in samples.
-			\param imageStrideInSamples Image stride in samples. Should be zero unless your the data is strided.
-			\param imageExifOrientation Image EXIF/JPEG orientation. Must be within [1, 8]. More information at https://www.impulseadventure.com/photo/exif-orientation.html
+		\param imageType The image type.
+		\param imageData Pointer to the image data.
+		\param imageWidthInSamples Image width in samples.
+		\param imageHeightInSamples Image height in samples.
+		\param imageStrideInSamples Image stride in samples. Should be zero unless your the data is strided.
+		\param imageExifOrientation Image EXIF/JPEG orientation. Must be within [1, 8]. More information at https://www.impulseadventure.com/photo/exif-orientation.html
 		*/
 		static UltMicrSdkResult process(
-			const ULTMICR_SDK_IMAGE_TYPE imageType, 
-			const void* imageData, 
+			const ULTMICR_SDK_IMAGE_TYPE imageType,
+			const void* imageData,
 			const size_t imageWidthInSamples,
 			const size_t imageHeightInSamples,
 			const size_t imageStrideInSamples = 0,
@@ -211,17 +223,17 @@ namespace ultimateMicrSdk
 		);
 
 		/*! Performs MICR detection and recognition operations.
-			\param imageType The image type.
-			\param yPtr Pointer to the start of the Y (luma) samples.
-			\param uPtr Pointer to the start of the U (chroma) samples.
-			\param vPtr Pointer to the start of the V (chroma) samples.
-			\param widthInSamples Image width in samples.
-			\param heightInSamples Image height in samples.
-			\param yStrideInBytes Stride in bytes for the Y (luma) samples.
-			\param uStrideInBytes Stride in bytes for the U (chroma) samples.
-			\param vStrideInBytes Stride in bytes for the V (chroma) samples.
-			\param uvPixelStrideInBytes Pixel stride in bytes for the UV (chroma) samples. Should be 1 for planar and 2 for semi-planar formats. Set to 0 for auto-detect.
-			\param exifOrientation Image EXIF/JPEG orientation. Must be within [1, 8]. More information at https://www.impulseadventure.com/photo/exif-orientation.html
+		\param imageType The image type.
+		\param yPtr Pointer to the start of the Y (luma) samples.
+		\param uPtr Pointer to the start of the U (chroma) samples.
+		\param vPtr Pointer to the start of the V (chroma) samples.
+		\param widthInSamples Image width in samples.
+		\param heightInSamples Image height in samples.
+		\param yStrideInBytes Stride in bytes for the Y (luma) samples.
+		\param uStrideInBytes Stride in bytes for the U (chroma) samples.
+		\param vStrideInBytes Stride in bytes for the V (chroma) samples.
+		\param uvPixelStrideInBytes Pixel stride in bytes for the UV (chroma) samples. Should be 1 for planar and 2 for semi-planar formats. Set to 0 for auto-detect.
+		\param exifOrientation Image EXIF/JPEG orientation. Must be within [1, 8]. More information at https://www.impulseadventure.com/photo/exif-orientation.html
 		*/
 		static UltMicrSdkResult process(
 			const ULTMICR_SDK_IMAGE_TYPE imageType,
@@ -250,7 +262,7 @@ namespace ultimateMicrSdk
 		/*! Performs CPU/GPU warm up to prepare for inference.
 		Calling this function will force loading the deep learning models in the memory.
 		Loading the models could take few milliseconds depending on your CPU/GPU and this method
-		is ideal to prepare everything before starting to \ref process "process" the frames. 
+		is ideal to prepare everything before starting to \ref process "process" the frames.
 		This function could be used to make sure the first inference will not be slow because of the loading.
 		\param imageType The image type you're expecting to use to \ref process "process" the frames.
 		\returns a \ref UltAlprSdkResult "result"

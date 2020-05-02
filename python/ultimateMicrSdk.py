@@ -79,6 +79,7 @@ ULTMICR_SDK_IMAGE_TYPE_YUV420P = _ultimateMicrSdk.ULTMICR_SDK_IMAGE_TYPE_YUV420P
 ULTMICR_SDK_IMAGE_TYPE_YVU420P = _ultimateMicrSdk.ULTMICR_SDK_IMAGE_TYPE_YVU420P
 ULTMICR_SDK_IMAGE_TYPE_YUV422P = _ultimateMicrSdk.ULTMICR_SDK_IMAGE_TYPE_YUV422P
 ULTMICR_SDK_IMAGE_TYPE_YUV444P = _ultimateMicrSdk.ULTMICR_SDK_IMAGE_TYPE_YUV444P
+ULTMICR_SDK_IMAGE_TYPE_Y = _ultimateMicrSdk.ULTMICR_SDK_IMAGE_TYPE_Y
 class UltMicrSdkResult(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, UltMicrSdkResult, name, value)

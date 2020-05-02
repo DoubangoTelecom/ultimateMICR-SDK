@@ -1,0 +1,1 @@
+runtimeKey.exe --assets ../../../assets

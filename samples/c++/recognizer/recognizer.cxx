@@ -11,12 +11,14 @@
 		recognizer \
 			--image <path-to-image-with-micr-zone-to-recognize> \
 			[--assets <path-to-assets-folder>] \
+			[--format <format-for-dtection:e13b/cmc7/e13b+cmc7>] \
 			[--tokenfile <path-to-license-token-file>] \
 			[--tokendata <base64-license-token-data>]
 
 	Example:
 		recognizer \
 			--image C:/Projects/GitHub/ultimate/ultimateMICR/SDK_dist/assets/images/e13b_1280x720.jpg \
+			--format e13b+cmc7 \
 			--assets C:/Projects/GitHub/ultimate/ultimateMICR/SDK_dist/assets \
 			--tokenfile C:/Projects/GitHub/ultimate/ultimateMICR/SDK_dev/tokens/windows-iMac.lic
 		
@@ -63,7 +65,7 @@ int main(int argc, char *argv[])
 {
 	// local variables
 	UltMicrSdkResult result(0, "OK", "{}");
-	std::string assetsFolder, licenseTokenData, licenseTokenFile;
+	std::string assetsFolder, format = "e13b+cmc7", licenseTokenData, licenseTokenFile;
 	std::string pathFileImage;
 
 	// Parsing args
@@ -84,6 +86,9 @@ int main(int argc, char *argv[])
 		std::replace(assetsFolder.begin(), assetsFolder.end(), '\\', '/');
 #endif
 	}
+	if (args.find("--format") != args.end()) {
+		format = args["--format"];
+	}
 	if (args.find("--tokenfile") != args.end()) {
 		licenseTokenFile = args["--tokenfile"];
 #if defined(_WIN32)
@@ -98,6 +103,9 @@ int main(int argc, char *argv[])
 	std::string jsonConfig = __jsonConfig;
 	if (!assetsFolder.empty()) {
 		jsonConfig += std::string(",\"assets_folder\": \"") + assetsFolder + std::string("\"");
+	}
+	if (!format.empty()) {
+		jsonConfig += std::string(",\"format\": \"") + format + std::string("\"");
 	}
 	if (!licenseTokenFile.empty()) {
 		jsonConfig += std::string(",\"license_token_file\": \"") + licenseTokenFile + std::string("\"");
@@ -168,6 +176,7 @@ static void printUsage(const std::string& message /*= ""*/)
 		"\n"
 		"--image: Path to the image(JPEG/PNG/BMP) to process. You can use default image at ../../../assets/images/e13b_1280x720.jpg.\n\n"
 		"--assets: Path to the assets folder containing the configuration files and models. Default value is the current folder.\n\n"
+		"--format: Defines the MICR format to enable for the detection. Use \"e13b\" to look for E-13B lines only and \"cmc7\" for CMC-7 lines only. To look for both, use \"e13b+cmc7\". For performance reasons you should not use \"e13b+cmc7\" unless you really expect the document to contain both E-13B and CMC7 lines. Default: \"e13b+cmc7\"\n\n"
 		"--tokenfile: Path to the file containing the base64 license token if you have one. If not provided then, the application will act like a trial version. Default: null.\n\n"
 		"--tokendata: Base64 license token if you have one. If not provided then, the application will act like a trial version. Default: null.\n\n"
 		"********************************************************************************\n"
