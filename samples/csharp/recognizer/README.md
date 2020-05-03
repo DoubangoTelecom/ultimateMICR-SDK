@@ -9,7 +9,7 @@
 
 
 This application is a reference implementation for developers to show how to use the C# API and could
-be used to easily check the accuracy. The C# API is a wrapper around the C++ API defined at [https://www.doubango.org/SDKs/mrz/docs/cpp-api.html](https://www.doubango.org/SDKs/mrz/docs/cpp-api.html). A C++ twin sample application is at [c++/recognizer](../../c++/recognizer).
+be used to easily check the accuracy. The C# API is a wrapper around the C++ API defined at [https://www.doubango.org/SDKs/micr/docs/cpp-api.html](https://www.doubango.org/SDKs/micr/docs/cpp-api.html). A C++ twin sample application is at [c++/recognizer](../../c++/recognizer).
 
 The application accepts path to a JPEG/PNG/BMP file as input. This **is not the recommended** way to use the API. We recommend reading the data directly from the camera and feeding the SDK with the uncompressed **YUV data** without saving it to a file or converting it to RGB.
 
