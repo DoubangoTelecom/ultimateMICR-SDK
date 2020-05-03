@@ -102,7 +102,7 @@ benchmark \
       [--tokendata <base64-license-token-data>]
 ```
 Options surrounded with **[]** are optional.
-- `--positive` Path to an image (JPEG/PNG/BMP) with a creit card. This image will be used to evaluate the recognizer. You can use default image at [../../../assets/images/e13b_1280x720.jpg](../../../assets/images/e13b_1280x720.jpg).
+- `--positive` Path to an image (JPEG/PNG/BMP) with MICR lines. This image will be used to evaluate the recognizer. You can use default image at [../../../assets/images/e13b_1280x720.jpg](../../../assets/images/e13b_1280x720.jpg).
 - `--negative` Path to an image (JPEG/PNG/BMP) without MICR lines. This image will be used to evaluate the decoder. You can use default image at [../../../assets/images/traffic_1280x720.jpg](../../../assets/images/traffic_1280x720.jpg).
 - `--assets` Path to the [assets](../../../assets) folder containing the configuration files and models. Default value is the current folder.
 - `--format` Defines the MICR format to enable for the detection. Use `e13b` to look for E-13B lines only and `cmc7` for CMC-7 lines only. To look for both, use `e13b+cmc7`. For performance reasons you should not use `e13b+cmc7` unless you really expect the document to contain both E-13B and CMC7 lines. Default: `e13b+cmc7`
