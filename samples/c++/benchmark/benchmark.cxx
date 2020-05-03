@@ -150,8 +150,8 @@ int main(int argc, char *argv[])
 	jsonConfig += "}"; // end-of-config
 
 	// Read files
-	// Positive: the file contains at least one ccard
-	// Negative: the file doesn't contain a ccard
+	// Positive: the file contains at least one MICR line
+	// Negative: the file doesn't contain a MICR lines
 	// Change positive rates to evaluate the detector versus recognizer
 	MicrFile filePositive, fileNegative;
 	if (!micrDecodeFile(pathFilePositive, filePositive)) {
@@ -246,12 +246,12 @@ static void printUsage(const std::string& message /*= ""*/)
 		"\n"
 		"Options surrounded with [] are optional.\n"
 		"\n"
-		"--positive: Path to an image(JPEG/PNG/BMP) with a credit card.This image will be used to evaluate the recognizer. You can use default image at ../../../assets/images/e13b_1280x720.jpg.\n\n"
-		"--negative: Path to an image(JPEG/PNG/BMP) without a credit card.This image will be used to evaluate the decoder. You can use default image at ../../../assets/images/traffic_1280x720.jpg.\n\n"
+		"--positive: Path to an image(JPEG/PNG/BMP) with MICR lines.This image will be used to evaluate the recognizer. You can use default image at ../../../assets/images/e13b_1280x720.jpg.\n\n"
+		"--negative: Path to an image(JPEG/PNG/BMP) without MICR lines.This image will be used to evaluate the decoder. You can use default image at ../../../assets/images/traffic_1280x720.jpg.\n\n"
 		"--assets: Path to the assets folder containing the configuration files and models.Default value is the current folder.\n\n"
 		"--format: Defines the MICR format to enable for the detection. Use \"e13b\" to look for E-13B lines only and \"cmc7\" for CMC-7 lines only. To look for both, use \"e13b+cmc7\". For performance reasons you should not use \"e13b+cmc7\" unless you really expect the document to contain both E-13B and CMC7 lines. Default: \"e13b+cmc7\"\n\n"
 		"--loops: Number of times to run the processing pipeline.\n\n"
-		"--rate: Percentage value within[0.0, 1.0] defining the positive rate. The positive rate defines the percentage of images with a ccard.\n\n"
+		"--rate: Percentage value within[0.0, 1.0] defining the positive rate. The positive rate defines the percentage of images with MICR lines.\n\n"
 		"--tokenfile: Path to the file containing the base64 license token if you have one. If not provided then, the application will act like a trial version. Default: null.\n\n"
 		"--tokendata: Base64 license token if you have one. If not provided then, the application will act like a trial version. Default: null.\n\n"
 		"********************************************************************************\n"
