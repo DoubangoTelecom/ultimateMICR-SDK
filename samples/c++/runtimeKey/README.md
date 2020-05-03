@@ -96,7 +96,7 @@ LD_LIBRARY_PATH=../../../binaries/linux/x86_64:$LD_LIBRARY_PATH ./runtimeKey \
 ```
 On **Windows x86_64**, you may use the next command:
 ```
-benchmark.exe ^
+runtimeKey.exe ^
     --json false ^
     --assets ../../../assets
 ```
