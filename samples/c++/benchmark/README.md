@@ -1,4 +1,4 @@
-- [Peformance numbers](#peformance-numbers)
+﻿- [Peformance numbers](#peformance-numbers)
 - [Pre-built binaries](#prebuilt)
 - [Building](#building)
   - [Windows](#building-windows)
@@ -71,7 +71,7 @@ g++ benchmark.cxx -O3 -I../../../c++ -L../../../binaries/<yourOS>/<yourArch> -lu
 <a name="building-rpi"></a>
 ## Raspberry Pi (Raspbian OS) ##
 
-To build the sample for Raspberry Pi you can either do it on the device itself or cross compile it on [Windows](#cross-compilation-rpi-install-windows), [Linux](#cross-compilation-rpi-install-ubunt) or OSX machines. 
+To build the sample for Raspberry Pi you can either do it on the device itself or cross compile it on [Windows](../README.md#cross-compilation-rpi-install-windows), [Linux](../README.md#cross-compilation-rpi-install-ubuntu) or OSX machines. 
 For more information on how to install the toolchain for cross compilation please check [here](../README.md#cross-compilation-rpi).
 
 ```
