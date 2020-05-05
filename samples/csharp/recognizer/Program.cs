@@ -174,7 +174,7 @@ namespace recognizer
          * JSON name: "roi"
          * Default: [0.f, 0.f, 0.f, 0.f]
          * type: float[4]
-         * pattern: [left, width, top, height]
+         * pattern: [left, right, top, bottom]
          * More info: https://www.doubango.org/SDKs/micr/docs/Configuration_options.html#roi
          */
         static readonly IList<float> CONFIG_ROI = new[] { 0f, 0f, 0f, 0f };
