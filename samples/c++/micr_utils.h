@@ -71,7 +71,7 @@ static bool micrDecodeFile(const std::string& path, MicrFile& micrFile)
 	int width, height, channels;
 	stbi_uc* uncompressedData = stbi_load_from_file(file, &width, &height, &channels, 0);
 	fclose(file);
-	if (!uncompressedData || width <= 0 || height <= 0 || (channels != 3 && channels != 4)) {
+	if (!uncompressedData || width <= 0 || height <= 0 || (channels != 1 && channels != 3 && channels != 4)) {
 		ULTMICR_SDK_PRINT_ERROR("Invalid file(%s, %d, %d, %d)", path.c_str(), width, height, channels);
 		if (uncompressedData) {
 			free(uncompressedData);
@@ -83,7 +83,7 @@ static bool micrDecodeFile(const std::string& path, MicrFile& micrFile)
 	// If you're using data from your camera then, it should be YUV-family and you don't need
 	// to convert to RGB-family.
 	// List of supported types: https://www.doubango.org/SDKs/ccard/docs/cpp-api.html#_CPPv4N15ultimateMicrSdk22ULTMICR_SDK_IMAGE_TYPEE
-	micrFile.type = (channels == 3) ? ULTMICR_SDK_IMAGE_TYPE_RGB24 : ULTMICR_SDK_IMAGE_TYPE_RGBA32;
+	micrFile.type = (channels == 3) ? ULTMICR_SDK_IMAGE_TYPE_RGB24 : (channels == 1 ? ULTMICR_SDK_IMAGE_TYPE_Y : ULTMICR_SDK_IMAGE_TYPE_RGBA32);
 	micrFile.uncompressedData = uncompressedData;
 	micrFile.width = static_cast<size_t>(width);
 	micrFile.height = static_cast<size_t>(height);
