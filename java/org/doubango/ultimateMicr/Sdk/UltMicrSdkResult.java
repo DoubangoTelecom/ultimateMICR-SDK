@@ -35,12 +35,20 @@ public class UltMicrSdkResult {
     }
   }
 
+  public UltMicrSdkResult() {
+    this(ultimateMicrSdkJNI.new_UltMicrSdkResult__SWIG_0(), true);
+  }
+
   public UltMicrSdkResult(int code, String phrase, String json, long numZones) {
-    this(ultimateMicrSdkJNI.new_UltMicrSdkResult__SWIG_0(code, phrase, json, numZones), true);
+    this(ultimateMicrSdkJNI.new_UltMicrSdkResult__SWIG_1(code, phrase, json, numZones), true);
   }
 
   public UltMicrSdkResult(int code, String phrase, String json) {
-    this(ultimateMicrSdkJNI.new_UltMicrSdkResult__SWIG_1(code, phrase, json), true);
+    this(ultimateMicrSdkJNI.new_UltMicrSdkResult__SWIG_2(code, phrase, json), true);
+  }
+
+  public UltMicrSdkResult(UltMicrSdkResult other) {
+    this(ultimateMicrSdkJNI.new_UltMicrSdkResult__SWIG_3(UltMicrSdkResult.getCPtr(other), other), true);
   }
 
   public int code() {

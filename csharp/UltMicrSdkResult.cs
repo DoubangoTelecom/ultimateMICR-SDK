@@ -41,10 +41,17 @@ public class UltMicrSdkResult : IDisposable {
     }
   }
 
-  public UltMicrSdkResult(int code, string phrase, string json, uint numZones) : this(ultimateMicrSdkPINVOKE.new_UltMicrSdkResult__SWIG_0(code, phrase, json, numZones), true) {
+  public UltMicrSdkResult() : this(ultimateMicrSdkPINVOKE.new_UltMicrSdkResult__SWIG_0(), true) {
   }
 
-  public UltMicrSdkResult(int code, string phrase, string json) : this(ultimateMicrSdkPINVOKE.new_UltMicrSdkResult__SWIG_1(code, phrase, json), true) {
+  public UltMicrSdkResult(int code, string phrase, string json, uint numZones) : this(ultimateMicrSdkPINVOKE.new_UltMicrSdkResult__SWIG_1(code, phrase, json, numZones), true) {
+  }
+
+  public UltMicrSdkResult(int code, string phrase, string json) : this(ultimateMicrSdkPINVOKE.new_UltMicrSdkResult__SWIG_2(code, phrase, json), true) {
+  }
+
+  public UltMicrSdkResult(UltMicrSdkResult other) : this(ultimateMicrSdkPINVOKE.new_UltMicrSdkResult__SWIG_3(UltMicrSdkResult.getCPtr(other)), true) {
+    if (ultimateMicrSdkPINVOKE.SWIGPendingException.Pending) throw ultimateMicrSdkPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public int code() {

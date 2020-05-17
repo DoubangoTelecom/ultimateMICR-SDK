@@ -3,6 +3,7 @@ benchmark.exe ^
     --negative ../../../assets/images/traffic_1280x720.jpg ^
     --assets ../../../assets ^
     --format cmc7 ^
+    --backprop false ^
     --loops 100 ^
     --rate 0.2
 

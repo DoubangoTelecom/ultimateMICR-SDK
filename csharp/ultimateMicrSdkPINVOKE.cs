@@ -199,10 +199,16 @@ class ultimateMicrSdkPINVOKE {
   public static extern int ULTMICR_SDK_VERSION_MICRO_get();
 
   [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_new_UltMicrSdkResult__SWIG_0")]
-  public static extern IntPtr new_UltMicrSdkResult__SWIG_0(int jarg1, string jarg2, string jarg3, uint jarg4);
+  public static extern IntPtr new_UltMicrSdkResult__SWIG_0();
 
   [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_new_UltMicrSdkResult__SWIG_1")]
-  public static extern IntPtr new_UltMicrSdkResult__SWIG_1(int jarg1, string jarg2, string jarg3);
+  public static extern IntPtr new_UltMicrSdkResult__SWIG_1(int jarg1, string jarg2, string jarg3, uint jarg4);
+
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_new_UltMicrSdkResult__SWIG_2")]
+  public static extern IntPtr new_UltMicrSdkResult__SWIG_2(int jarg1, string jarg2, string jarg3);
+
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_new_UltMicrSdkResult__SWIG_3")]
+  public static extern IntPtr new_UltMicrSdkResult__SWIG_3(HandleRef jarg1);
 
   [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_delete_UltMicrSdkResult")]
   public static extern void delete_UltMicrSdkResult(HandleRef jarg1);

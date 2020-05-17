@@ -16,7 +16,7 @@
   
  - Full documentation at https://www.doubango.org/SDKs/micr/docs/
  - Online demo at https://www.doubango.org/webapps/micr/
- - Open source Computer Vision library: https://github.com/DoubangoTelecom/compv
+ - Open source Computer Vision Library: https://github.com/DoubangoTelecom/compv
   
 <hr />
 
@@ -217,6 +217,7 @@ The C++ API is defined at https://www.doubango.org/SDKs/micr/docs/cpp-api.html.
  
  <a name="Getting-started-Using-the-API-Linux-Windows-Raspberry-Pi-and-Others-Cpp"></a>
  ### Linux, Windows, Raspberry Pi and Others (C++) ###
+ The C++ API is defined at https://www.doubango.org/SDKs/micr/docs/cpp-api.html.
 
 ```cpp
 	#include <ultimateMICR-SDK-API-PUBLIC.h> // Include the API header file
@@ -255,7 +256,7 @@ The C++ API is defined at https://www.doubango.org/SDKs/micr/docs/cpp-api.html.
 	// Processing (detection + recognition)
 	// Call this function for every video frame
 	const void* imageData = nullptr;
-	ULTMICR_SDK_ASSERT((*result_ = UltMicrSdkEngine::process(
+	ULTMICR_SDK_ASSERT((result = UltMicrSdkEngine::process(
 			ULTMICR_SDK_IMAGE_TYPE_RGB24,
 			imageData,
 			imageWidth,

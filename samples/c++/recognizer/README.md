@@ -89,6 +89,7 @@ recognizer \
       --image <path-to-image-with-to-process> \
       [--assets <path-to-assets-folder>] \
       [--format <format-for-dtection:e13b/cmc7/e13b+cmc7>] \
+      [--backprop <whether-to-enable-backpropagation:true/false>] \
       [--tokenfile <path-to-license-token-file>] \
       [--tokendata <base64-license-token-data>]
 ```
@@ -96,6 +97,7 @@ Options surrounded with **[]** are optional.
 - `--image` Path to the image(JPEG/PNG/BMP) to process. You can use default image at [../../../assets/images/e13b_1280x720.jpg](../../../assets/images/e13b_1280x720.jpg).
 - `--assets` Path to the [assets](../../../assets) folder containing the configuration files and models. Default value is the current folder.
 - `--format` Defines the MICR format to enable for the detection. Use `e13b` to look for E-13B lines only and `cmc7` for CMC-7 lines only. To look for both, use `e13b+cmc7`. For performance reasons you should not use `e13b+cmc7` unless you really expect the document to contain both E-13B and CMC7 lines. Default: `e13b+cmc7`.
+- `--backprop` Whether to enable backpropagation to detect the MICR lines. Only `CMC-7` font uses this option. More information at https://www.doubango.org/SDKs/micr/docs/Detection_techniques.html#backpropagation. Default: `true` for x86 CPUs and `false` for ARM CPUs.
 - `--tokenfile` Path to the file containing the base64 license token if you have one. If not provided then, the application will act like a trial version. Default: *null*.
 - `--tokendata` Base64 license token if you have one. If not provided then, the application will act like a trial version. Default: *null*.
 
@@ -107,21 +109,24 @@ For example, on **Raspberry Pi** you may call the recognizer application using t
 LD_LIBRARY_PATH=../../../binaries/raspbian/armv7l:$LD_LIBRARY_PATH ./recognizer \
     --image ../../../assets/images/cmc7_1280x720.jpg \
     --assets ../../../assets \
-    --formay e13b+cmc7
+    --formay e13b+cmc7 \
+    --backprop true
 ```
 On **Linux x86_64**, you may use the next command:
 ```
 LD_LIBRARY_PATH=../../../binaries/linux/x86_64:$LD_LIBRARY_PATH ./recognizer \
     --image ../../../assets/images/e13b_1280x720.jpg \
     --assets ../../../assets \
-    --formay e13b+cmc7
+    --formay e13b+cmc7 \
+    --backprop true
 ```
 On **Windows x86_64**, you may use the next command:
 ```
 recognizer.exe ^
     --image ../../../assets/images/e13b_1280x720.jpg ^
     --assets ../../../assets ^
-    --format e13b+cmc7
+    --format e13b+cmc7 ^
+    --backprop true
 ```
 
 Please note that if you're cross compiling the application then you've to make sure to copy the application and both the [assets](../../../assets) and [binaries](../../../binaries) folders to the target device.

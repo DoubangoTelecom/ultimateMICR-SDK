@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2019 Doubango AI <https://www.doubango.org>
+ * Copyright (C) 2016-2020 Doubango AI <https://www.doubango.org>
  * License: For non-commercial use only
  * Source code: https://github.com/DoubangoTelecom/ultimateMICR-SDK
  * WebSite: https://www.doubango.org/webapps/micr/
@@ -123,6 +123,17 @@ public class MICRVideoRecognizerE13BActivity extends MICRActivity {
     static final String CONFIG_SEGMENTER_ACCURACY = "high";
 
     /**
+     * Whether to enable backpropagation to detect the MICR lines. Only CMC-7 font uses this option.
+     * Technical description at https://www.doubango.org/SDKs/micr/docs/Detection_techniques.html#backpropagation.
+     * JSON name: "backpropagation_enabled"
+     * Default: true for x86 CPUs and false for ARM CPUs.
+     * type: bool
+     * pattern: true | false
+     * More info: https://www.doubango.org/SDKs/micr/docs/Configuration_options.html#segmenter-accuracy
+     */
+    static final boolean CONFIG_BACKPROPAGATION_ENABLED = false;
+
+    /**
      * Defines the interpolation method to use when pixels are scaled, deskewed or deslanted. bicubic offers the best quality but is slow as there
      * is no SIMD or GPU acceleration yet. bilinear and nearest interpolations are multithreaded and SIMD accelerated. For most scenarios bilinear
      * interpolation is good enough to provide high accuracy/precision results while the code still runs very fast.
@@ -154,7 +165,7 @@ public class MICRVideoRecognizerE13BActivity extends MICRActivity {
      * pattern: ]0.f, 1.f]
      * More info: https://www.doubango.org/SDKs/micr/docs/Configuration_options.html#min-score
      */
-    static final double CONFIG_MIN_SCORE = 0.3; // 30%
+    static final double CONFIG_MIN_SCORE = 0.4; // 40%
 
     /**
      * Defines the overall score type. The recognizer outputs a recognition score ([0.f, 1.f]) for every character in the license plate.
@@ -236,6 +247,7 @@ public class MICRVideoRecognizerE13BActivity extends MICRActivity {
             config.put("gpgpu_workload_balancing_enabled", CONFIG_GPGPU_WORKLOAD_BALANCING_ENABLED);
 
             config.put("segmenter_accuracy", CONFIG_SEGMENTER_ACCURACY);
+            config.put("backpropagation_enabled", CONFIG_BACKPROPAGATION_ENABLED);
             config.put("interpolation", CONFIG_INTERPOLATION);
             config.put("format", CONFIG_FORMAT);
             config.put("roi", new JSONArray(CONFIG_ROI));

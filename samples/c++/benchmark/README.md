@@ -101,6 +101,7 @@ benchmark \
       --negative <path-to-image-without-micr-lines> \
       [--assets <path-to-assets-folder>] \
       [--format <format-for-dtection:e13b/cmc7/e13b+cmc7>] \
+      [--backprop <whether-to-enable-backpropagation:true/false>] \
       [--loops <number-of-times-to-run-the-loop:[1, inf]>] \
       [--rate <positive-rate:[0.0, 1.0]>] \
       [--tokenfile <path-to-license-token-file>] \
@@ -111,6 +112,7 @@ Options surrounded with **[]** are optional.
 - `--negative` Path to an image (JPEG/PNG/BMP) without MICR lines. This image will be used to evaluate the decoder. You can use default image at [../../../assets/images/traffic_1280x720.jpg](../../../assets/images/traffic_1280x720.jpg).
 - `--assets` Path to the [assets](../../../assets) folder containing the configuration files and models. Default value is the current folder.
 - `--format` Defines the MICR format to enable for the detection. Use `e13b` to look for E-13B lines only and `cmc7` for CMC-7 lines only. To look for both, use `e13b+cmc7`. For performance reasons you should not use `e13b+cmc7` unless you really expect the document to contain both E-13B and CMC7 lines. Default: `e13b+cmc7`
+- `--backprop` Whether to enable backpropagation to detect the MICR lines. Only `CMC-7` font uses this option. More information at https://www.doubango.org/SDKs/micr/docs/Detection_techniques.html#backpropagation. Default: `true` for x86 CPUs and `false` for ARM CPUs.
 - `--loops` Number of times to run the processing pipeline.
 - `--rate` Percentage value within [0.0, 1.0] defining the positive rate. The positive rate defines the percentage of images with MICR lines.
 - `--tokenfile` Path to the file containing the base64 license token if you have one. If not provided then, the application will act like a trial version. Default: *null*.
@@ -128,6 +130,7 @@ LD_LIBRARY_PATH=../../../binaries/raspbian/armv7l:$LD_LIBRARY_PATH ./benchmark \
     --negative ../../../assets/images/traffic_1280x720.jpg \
     --assets ../../../assets \
     --formay e13b+cmc7 \
+    --backprop false \
     --loops 100 \
     --rate 0.2
 ```
@@ -138,6 +141,7 @@ LD_LIBRARY_PATH=../../../binaries/linux/x86_64:$LD_LIBRARY_PATH ./benchmark \
     --negative ../../../assets/images/traffic_1280x720.jpg \
     --assets ../../../assets \
     --formay e13b+cmc7 \
+    --backprop false \
     --loops 100 \
     --rate 0.2
 ```
@@ -148,6 +152,7 @@ benchmark.exe ^
     --negative ../../../assets/images/traffic_1280x720.jpg ^
     --assets ../../../assets ^
     --format e13b+cmc7 ^
+    --backprop false ^
     --loops 100 ^
     --rate 0.2
 ```

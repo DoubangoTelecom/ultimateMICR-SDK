@@ -14,8 +14,10 @@ public class ultimateMicrSdkJNI {
     System.loadLibrary("ultimateMICR_SDK");
   }
 
-  public final static native long new_UltMicrSdkResult__SWIG_0(int jarg1, String jarg2, String jarg3, long jarg4);
-  public final static native long new_UltMicrSdkResult__SWIG_1(int jarg1, String jarg2, String jarg3);
+  public final static native long new_UltMicrSdkResult__SWIG_0();
+  public final static native long new_UltMicrSdkResult__SWIG_1(int jarg1, String jarg2, String jarg3, long jarg4);
+  public final static native long new_UltMicrSdkResult__SWIG_2(int jarg1, String jarg2, String jarg3);
+  public final static native long new_UltMicrSdkResult__SWIG_3(long jarg1, UltMicrSdkResult jarg1_);
   public final static native void delete_UltMicrSdkResult(long jarg1);
   public final static native int UltMicrSdkResult_code(long jarg1, UltMicrSdkResult jarg1_);
   public final static native String UltMicrSdkResult_phrase(long jarg1, UltMicrSdkResult jarg1_);

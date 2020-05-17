@@ -12,14 +12,16 @@
 			--image <path-to-image-with-micr-zone-to-recognize> \
 			[--assets <path-to-assets-folder>] \
 			[--format <format-for-dtection:e13b/cmc7/e13b+cmc7>] \
+			[--backprop <whether-to-enable-backpropagation:true/false>] \
 			[--tokenfile <path-to-license-token-file>] \
 			[--tokendata <base64-license-token-data>]
 
 	Example:
 		recognizer \
 			--image C:/Projects/GitHub/ultimate/ultimateMICR/SDK_dist/assets/images/e13b_1280x720.jpg \
-			--format e13b+cmc7 \
 			--assets C:/Projects/GitHub/ultimate/ultimateMICR/SDK_dist/assets \
+			--format e13b+cmc7 \
+			--backprop true \
 			--tokenfile C:/Projects/GitHub/ultimate/ultimateMICR/SDK_dev/tokens/windows-iMac.lic
 		
 */
@@ -42,10 +44,9 @@ static const char* __jsonConfig =
 "\"num_threads\": -1,"
 "\"gpgpu_enabled\": true,"
 ""
-"\"segmenter_accuracy\": \"high\","
 "\"interpolation\": \"bilinear\","
 "\"roi\": [0, 0, 0, 0],"
-"\"min_score\": 0.3,"
+"\"min_score\": 0.4,"
 "\"score_type\": \"min\""
 "";
 
@@ -66,6 +67,12 @@ int main(int argc, char *argv[])
 	// local variables
 	UltMicrSdkResult result(0, "OK", "{}");
 	std::string assetsFolder, format = "e13b+cmc7", licenseTokenData, licenseTokenFile;
+	bool backpropEnabled =
+#if defined(__arm__) || defined(__thumb__) || defined(__TARGET_ARCH_ARM) || defined(__TARGET_ARCH_THUMB) || defined(_ARM) || defined(_M_ARM) || defined(_M_ARMT) || defined(__arm) || defined(__aarch64__)
+		false;
+#else
+		true;
+#endif
 	std::string pathFileImage;
 
 	// Parsing args
@@ -89,6 +96,9 @@ int main(int argc, char *argv[])
 	if (args.find("--format") != args.end()) {
 		format = args["--format"];
 	}
+	if (args.find("--backprop") != args.end()) {
+		backpropEnabled = (args["--backprop"] == "true");
+	}
 	if (args.find("--tokenfile") != args.end()) {
 		licenseTokenFile = args["--tokenfile"];
 #if defined(_WIN32)
@@ -107,6 +117,7 @@ int main(int argc, char *argv[])
 	if (!format.empty()) {
 		jsonConfig += std::string(",\"format\": \"") + format + std::string("\"");
 	}
+	jsonConfig += std::string(",\"backpropagation_enabled\": ") + (backpropEnabled ? "true" : "false");
 	if (!licenseTokenFile.empty()) {
 		jsonConfig += std::string(",\"license_token_file\": \"") + licenseTokenFile + std::string("\"");
 	}
@@ -177,6 +188,7 @@ static void printUsage(const std::string& message /*= ""*/)
 		"--image: Path to the image(JPEG/PNG/BMP) to process. You can use default image at ../../../assets/images/e13b_1280x720.jpg.\n\n"
 		"--assets: Path to the assets folder containing the configuration files and models. Default value is the current folder.\n\n"
 		"--format: Defines the MICR format to enable for the detection. Use \"e13b\" to look for E-13B lines only and \"cmc7\" for CMC-7 lines only. To look for both, use \"e13b+cmc7\". For performance reasons you should not use \"e13b+cmc7\" unless you really expect the document to contain both E-13B and CMC7 lines. Default: \"e13b+cmc7\"\n\n"
+		"--backprop: Whether to enable backpropagation to detect the MICR lines. Only CMC-7 font uses this option. More information at https://www.doubango.org/SDKs/micr/docs/Detection_techniques.html#backpropagation. Default: true for x86 CPUs and false for ARM CPUs.\n\n"
 		"--tokenfile: Path to the file containing the base64 license token if you have one. If not provided then, the application will act like a trial version. Default: null.\n\n"
 		"--tokendata: Base64 license token if you have one. If not provided then, the application will act like a trial version. Default: null.\n\n"
 		"********************************************************************************\n"
