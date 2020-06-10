@@ -1,1 +1,1 @@
-C:\Projects\GitHub\ultimate\ultimateMICR\SDK_dist\samples\csharp\recognizer\ 
+C:\Projects\GitHub\ultimate\ultimateMICR-SDK\samples\csharp\recognizer\ 

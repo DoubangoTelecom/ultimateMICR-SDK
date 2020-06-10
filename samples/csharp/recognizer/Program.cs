@@ -235,6 +235,18 @@ namespace recognizer
                 throw new System.Exception("Invalid BPP:" + bytesPerPixel);
             }
 
+            // Extract Exif orientation
+            const int ExifOrientationTagId = 0x112;
+            int orientation = 1;
+            if (Array.IndexOf(image.PropertyIdList, ExifOrientationTagId) > -1)
+            {
+                int orientation_ = image.GetPropertyItem(ExifOrientationTagId).Value[0];
+                if (orientation_ >= 1 && orientation_ <= 8)
+                {
+                    orientation = orientation_;
+                }
+            }
+
             // Processing: Detection + recognition
             //!\\ First inference is expected to be slow (deep learning models mapping to CPU/GPU memory)
             BitmapData imageData = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, image.PixelFormat);
@@ -247,7 +259,8 @@ namespace recognizer
                         imageData.Scan0,
                         (uint)imageData.Width,
                         (uint)imageData.Height,
-                        (uint)(imageData.Stride / bytesPerPixel)
+                        (uint)(imageData.Stride / bytesPerPixel),
+                        orientation
                     )); 
                 // Print result to console
                 Console.WriteLine("Result: {0}", result.json());
