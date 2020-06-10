@@ -229,20 +229,26 @@ namespace recognizer
                 throw new System.IO.FileNotFoundException("File not found:" + file);
             }
             Bitmap image = new Bitmap(file);
+            int bytesPerPixel = Image.GetPixelFormatSize(image.PixelFormat) >> 3;
+            if (bytesPerPixel != 1 && bytesPerPixel != 3 && bytesPerPixel != 4)
+            {
+                throw new System.Exception("Invalid BPP:" + bytesPerPixel);
+            }
 
             // Processing: Detection + recognition
             //!\\ First inference is expected to be slow (deep learning models mapping to CPU/GPU memory)
-            BitmapData imageData = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+            BitmapData imageData = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, image.PixelFormat);
             try
             {
                 // For packed formats (RGB-family): https://www.doubango.org/SDKs/micr/docs/cpp-api.html#_CPPv4N15ultimateMicrSdk16UltMicrSdkEngine7processEK22ULTMICR_SDK_IMAGE_TYPEPKvK6size_tK6size_tK6size_tKi
                 // For YUV formats (data from camera): https://www.doubango.org/SDKs/micr/docs/cpp-api.html#_CPPv4N15ultimateMicrSdk16UltMicrSdkEngine7processEK22ULTMICR_SDK_IMAGE_TYPEPKvPKvPKvK6size_tK6size_tK6size_tK6size_tK6size_tK6size_tKi
                 result = CheckResult("Process", UltMicrSdkEngine.process(
-                        ULTMICR_SDK_IMAGE_TYPE.ULTMICR_SDK_IMAGE_TYPE_RGB24, // TODO(dmi): not correct. C# image decoder outputs BGR24 instead of RGB24
+                        (bytesPerPixel == 1) ? ULTMICR_SDK_IMAGE_TYPE.ULTMICR_SDK_IMAGE_TYPE_Y : (bytesPerPixel == 4 ? ULTMICR_SDK_IMAGE_TYPE.ULTMICR_SDK_IMAGE_TYPE_BGRA32 : ULTMICR_SDK_IMAGE_TYPE.ULTMICR_SDK_IMAGE_TYPE_RGB24), // TODO(dmi): not correct. C# image decoder outputs BGR24 instead of RGB24
                         imageData.Scan0,
-                        (uint)image.Width,
-                        (uint)image.Height
-                    ));
+                        (uint)imageData.Width,
+                        (uint)imageData.Height,
+                        (uint)(imageData.Stride / bytesPerPixel)
+                    )); 
                 // Print result to console
                 Console.WriteLine("Result: {0}", result.json());
             }
