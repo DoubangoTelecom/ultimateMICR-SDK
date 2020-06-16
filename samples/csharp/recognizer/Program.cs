@@ -229,7 +229,7 @@ namespace recognizer
                 throw new System.IO.FileNotFoundException("File not found:" + file);
             }
             Bitmap image = new Bitmap(file);
-            if ((image.Width & 3) != 0 && Image.GetPixelFormatSize(image.PixelFormat) == 24)
+            if (Image.GetPixelFormatSize(image.PixelFormat) == 24 && ((image.Width * 3) & 3) != 0)
             {
                 //!\\ Not DWORD aligned -> the stride will be multiple of 4-bytes instead of 3-bytes
                 // ultimateMICR requires stride to be in samples unit instead of in bytes
