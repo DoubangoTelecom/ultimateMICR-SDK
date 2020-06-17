@@ -262,7 +262,7 @@ namespace recognizer
                 // For packed formats (RGB-family): https://www.doubango.org/SDKs/micr/docs/cpp-api.html#_CPPv4N15ultimateMicrSdk16UltMicrSdkEngine7processEK22ULTMICR_SDK_IMAGE_TYPEPKvK6size_tK6size_tK6size_tKi
                 // For YUV formats (data from camera): https://www.doubango.org/SDKs/micr/docs/cpp-api.html#_CPPv4N15ultimateMicrSdk16UltMicrSdkEngine7processEK22ULTMICR_SDK_IMAGE_TYPEPKvPKvPKvK6size_tK6size_tK6size_tK6size_tK6size_tK6size_tKi
                 result = CheckResult("Process", UltMicrSdkEngine.process(
-                        (bytesPerPixel == 1) ? ULTMICR_SDK_IMAGE_TYPE.ULTMICR_SDK_IMAGE_TYPE_Y : (bytesPerPixel == 4 ? ULTMICR_SDK_IMAGE_TYPE.ULTMICR_SDK_IMAGE_TYPE_RGBA32 : ULTMICR_SDK_IMAGE_TYPE.ULTMICR_SDK_IMAGE_TYPE_RGB24), // TODO(dmi): not correct. C# image decoder outputs BGR24 instead of RGB24
+                        (bytesPerPixel == 1) ? ULTMICR_SDK_IMAGE_TYPE.ULTMICR_SDK_IMAGE_TYPE_Y : (bytesPerPixel == 4 ? ULTMICR_SDK_IMAGE_TYPE.ULTMICR_SDK_IMAGE_TYPE_BGRA32 : ULTMICR_SDK_IMAGE_TYPE.ULTMICR_SDK_IMAGE_TYPE_BGR24),
                         imageData.Scan0,
                         (uint)imageData.Width,
                         (uint)imageData.Height,

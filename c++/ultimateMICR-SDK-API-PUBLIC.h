@@ -14,7 +14,7 @@ ultimateMICR-SDK public header
 #include <string>
 
 #define ULTMICR_SDK_VERSION_MAJOR		2
-#define ULTMICR_SDK_VERSION_MINOR		3
+#define ULTMICR_SDK_VERSION_MINOR		4
 #define ULTMICR_SDK_VERSION_MICRO		0
 
 // Windows's symbols export
@@ -125,6 +125,17 @@ namespace ultimateMicrSdk
 		* Available since: 2.1.0
 		*/
 		ULTMICR_SDK_IMAGE_TYPE_Y,
+		/*! Each pixel is stored on 3 bytes. Each channel (B, G, R) is stored with 8 bits (1 byte) of precision (256 possible values).
+		* The B channel is stored at the lowest memory address followed by G then R channels. If you're using C# then,
+		* this is the same as <b>PixelFormat.Format24bppRgb</b>.
+		* Here is how the pixels are packed:
+		* \code{.cpp}
+		* const int pixel = (R & 0xff) << 16 | (G & 0xff) << 8 | (B & 0xff);
+		* \endcode
+		*
+		* Available since: 2.4.0
+		*/
+		ULTMICR_SDK_IMAGE_TYPE_BGR24,
 	};
 
 	/*! Result returned by the \ref UltMicrSdkEngine "engine" at initialization, deInitialization and processing stages.
