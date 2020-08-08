@@ -1,0 +1,7 @@
+Recognizer.java
+../../../java/org/doubango/ultimateMicr/Sdk/ultimateMicrSdk.java
+../../../java/org/doubango/ultimateMicr/Sdk/ultimateMicrSdkConstants.java
+../../../java/org/doubango/ultimateMicr/Sdk/ultimateMicrSdkJNI.java
+../../../java/org/doubango/ultimateMicr/Sdk/ULTMICR_SDK_IMAGE_TYPE.java
+../../../java/org/doubango/ultimateMicr/Sdk/UltMicrSdkEngine.java
+../../../java/org/doubango/ultimateMicr/Sdk/UltMicrSdkResult.java

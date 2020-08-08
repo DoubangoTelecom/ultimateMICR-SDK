@@ -9,11 +9,6 @@
 package org.doubango.ultimateMicr.Sdk;
 
 public class ultimateMicrSdkJNI {
-
-  static {
-    System.loadLibrary("ultimateMICR_SDK");
-  }
-
   public final static native long new_UltMicrSdkResult__SWIG_0();
   public final static native long new_UltMicrSdkResult__SWIG_1(int jarg1, String jarg2, String jarg3, long jarg4);
   public final static native long new_UltMicrSdkResult__SWIG_2(int jarg1, String jarg2, String jarg3);
