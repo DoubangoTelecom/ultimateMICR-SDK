@@ -11,6 +11,7 @@
 		licenser \
 			[--json <json-output:bool>] \
 			[--assets <path-to-assets-folder>]
+			[--type <host-type>]
 
 	Example:
 		licenser \
@@ -44,17 +45,17 @@ int main(int argc, char *argv[])
 	if (args.find("--json") != args.end()) {
 		rawInsteadOfJSON = (args["--json"].compare("true") != 0);
 	}
+
+	// Build JSON string
 	std::string jsonConfig;
 	if (args.find("--assets") != args.end()) {
-		std::string assetsFolder = args["--assets"];
-#if defined(_WIN32)
-		std::replace(assetsFolder.begin(), assetsFolder.end(), '\\', '/');
-#endif
-		jsonConfig = std::string("{ \"assets_folder\": \"") + assetsFolder + std::string("\" }");
+		jsonConfig += std::string("\"assets_folder\": \"") + args["--assets"] + std::string("\"");
 	}
-	else {
-		jsonConfig = "{}";
+	if (args.find("--type") != args.end()) {
+		jsonConfig += (jsonConfig.empty() ? "" : ",")
+			+ std::string("\"host_type\": \"") + args["--type"] + std::string("\"");
 	}
+	jsonConfig = "{" + jsonConfig + "}";
 
 	// Initialize the engine
 	ULTMICR_SDK_ASSERT(UltMicrSdkEngine::init(jsonConfig.c_str()).isOK());
@@ -97,6 +98,7 @@ static void printUsage(const std::string& message /*= ""*/)
 		"\n"
 		"--json: Whether to output the runtime license key as JSON string intead of raw string. Default: true.\n"
 		"--assets: Path to the assets folder containing the configuration files and models. Default value is the current folder.\n"
+		"--type: Defines how the license is attached to the machine/host. Possible values are 'aws-instance' or 'aws-byol'. Default: null.\n"
 		"********************************************************************************\n"
 	);
 }
