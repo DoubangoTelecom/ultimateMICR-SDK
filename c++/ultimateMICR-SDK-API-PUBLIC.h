@@ -15,7 +15,7 @@ ultimateMICR-SDK public header
 
 #define ULTMICR_SDK_VERSION_MAJOR		2
 #define ULTMICR_SDK_VERSION_MINOR		7
-#define ULTMICR_SDK_VERSION_MICRO		0
+#define ULTMICR_SDK_VERSION_MICRO		1
 
 // Windows's symbols export
 #if defined(SWIG)
