@@ -4,6 +4,7 @@ benchmark.exe ^
     --assets ../../../assets ^
     --format e13b ^
     --backprop false ^
+    --ielcd false ^
     --loops 100 ^
     --rate 0.2
 

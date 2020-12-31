@@ -123,9 +123,22 @@ namespace recognizer
          * Default: true for x86 CPUs and false for ARM CPUs.
          * type: bool
          * pattern: true | false
-         * More info: https://www.doubango.org/SDKs/micr/docs/Configuration_options.html#segmenter-accuracy
+         * Available since: 2.2.0
+         * More info: https://www.doubango.org/SDKs/micr/docs/Configuration_options.html#backpropagation-enabled
          */
         const bool CONFIG_BACKPROPAGATION_ENABLED = true;
+
+        /**
+         * Whether to enable Image Enhancement for Low Contrast Document (IELCD).
+         * Technical description at https://www.doubango.org/SDKs/micr/docs/IELCD.html#ielcd.
+         * JSON name: "ielcd_enabled"
+         * Default: true for x86 CPUs and false for ARM CPUs.
+         * type: bool
+         * pattern: true | false
+         * Available since: 2.8.0
+         * More info: https://www.doubango.org/SDKs/micr/docs/Configuration_options.html#ielcd-enabled
+         */
+        const bool CONFIG_IELCD_ENABLED = true;
 
         /**
          * Defines the interpolation method to use when pixels are scaled, deskewed or deslanted. bicubic offers the best quality but is slow as there
@@ -338,6 +351,7 @@ namespace recognizer
 
                 segmenter_accuracy = CONFIG_SEGMENTER_ACCURACY,
                 backpropagation_enabled = CONFIG_BACKPROPAGATION_ENABLED,
+                ielcd = CONFIG_IELCD_ENABLED,
                 interpolation = CONFIG_INTERPOLATION,
 
                 roi = CONFIG_ROI,

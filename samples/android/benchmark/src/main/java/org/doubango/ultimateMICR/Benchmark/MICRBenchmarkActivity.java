@@ -97,7 +97,7 @@ public class MICRBenchmarkActivity extends AppCompatActivity {
      * pattern: true | false
      * More info: https://www.doubango.org/SDKs/micr/docs/Configuration_options.html#gpgpu-workload-balancing-enabled
      */
-    static final boolean CONFIG_GPGPU_WORKLOAD_BALANCING_ENABLED = (System.getProperty("os.arch") == "armv71" || System.getProperty("os.arch") == "aarch64");
+    static final boolean CONFIG_GPGPU_WORKLOAD_BALANCING_ENABLED = (System.getProperty("os.arch").equals("armv71") || System.getProperty("os.arch").equals("aarch64"));
 
     /**
      * Before calling the classifier to determine whether a zone contains a MICR line we need to segment the text using multi-layer segmenter followed by clustering.

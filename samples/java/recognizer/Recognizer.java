@@ -119,7 +119,19 @@ public class Recognizer {
    * pattern: true | false
    * More info: https://www.doubango.org/SDKs/micr/docs/Configuration_options.html#segmenter-accuracy
    */
-  static final boolean CONFIG_BACKPROPAGATION_ENABLED = true;
+  static final boolean CONFIG_BACKPROPAGATION_ENABLED = System.getProperty("os.arch").equals("amd64");
+
+  /**
+   * Whether to enable Image Enhancement for Low Contrast Document (IELCD).
+   * Technical description at https://www.doubango.org/SDKs/micr/docs/IELCD.html#ielcd.
+   * JSON name: "ielcd_enabled"
+   * Default: true for x86 CPUs and false for ARM CPUs.
+   * type: bool
+   * pattern: true | false
+   * Available since: 2.8.0
+   * More info: https://www.doubango.org/SDKs/micr/docs/Configuration_options.html#ielcd-enabled
+   */
+  static final boolean CONFIG_IELCD_ENABLED = System.getProperty("os.arch").equals("amd64");
 
    /**
    * Defines the interpolation method to use when pixels are scaled, deskewed or deslanted. bicubic offers the best quality but is slow as there
@@ -327,6 +339,7 @@ public class Recognizer {
          "\"format\": \"%s\"," +
          "\"interpolation\": \"%s\"," +
          "\"backpropagation_enabled\": %s," +
+         "\"ielcd_enabled\": %s," +
          "" +
          "\"roi\": [%s]," +
          "\"min_score\": %f," + 
@@ -348,6 +361,7 @@ public class Recognizer {
          format,
          CONFIG_INTERPOLATION,
          CONFIG_BACKPROPAGATION_ENABLED ? "true" : "false",
+         CONFIG_IELCD_ENABLED ? "true" : "false",
 
          CONFIG_ROI.stream().map(String::valueOf).collect(Collectors.joining(",")),
          CONFIG_MIN_SCORE,

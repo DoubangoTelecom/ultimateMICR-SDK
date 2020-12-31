@@ -8,9 +8,9 @@
 /*
 	https://github.com/DoubangoTelecom/ultimateMICR/blob/master/SDK_dist/samples/c++/licenser/README.md
 	Usage: 
-		licenser \
+		runtimeKey \
 			[--json <json-output:bool>] \
-			[--assets <path-to-assets-folder>]
+			[--assets <path-to-assets-folder>] \
 			[--type <host-type>]
 
 	Example:

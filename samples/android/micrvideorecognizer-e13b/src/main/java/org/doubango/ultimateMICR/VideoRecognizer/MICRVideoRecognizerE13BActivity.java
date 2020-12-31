@@ -107,7 +107,7 @@ public class MICRVideoRecognizerE13BActivity extends MICRActivity {
      * pattern: true | false
      * More info: https://www.doubango.org/SDKs/micr/docs/Configuration_options.html#gpgpu-workload-balancing-enabled
      */
-    static final boolean CONFIG_GPGPU_WORKLOAD_BALANCING_ENABLED = (System.getProperty("os.arch") == "armv71" || System.getProperty("os.arch") == "aarch64");
+    static final boolean CONFIG_GPGPU_WORKLOAD_BALANCING_ENABLED = (System.getProperty("os.arch").equals("armv71") || System.getProperty("os.arch").equals("aarch64"));
 
     /**
      * Before calling the classifier to determine whether a zone contains a MICR line we need to segment the text using multi-layer segmenter followed by clustering.
@@ -131,7 +131,19 @@ public class MICRVideoRecognizerE13BActivity extends MICRActivity {
      * pattern: true | false
      * More info: https://www.doubango.org/SDKs/micr/docs/Configuration_options.html#segmenter-accuracy
      */
-    static final boolean CONFIG_BACKPROPAGATION_ENABLED = false;
+    static final boolean CONFIG_BACKPROPAGATION_ENABLED = System.getProperty("os.arch").equals("amd64");
+
+    /**
+     * Whether to enable Image Enhancement for Low Contrast Document (IELCD).
+     * Technical description at https://www.doubango.org/SDKs/micr/docs/IELCD.html#ielcd.
+     * JSON name: "ielcd_enabled"
+     * Default: true for x86 CPUs and false for ARM CPUs.
+     * type: bool
+     * pattern: true | false
+     * Available since: 2.8.0
+     * More info: https://www.doubango.org/SDKs/micr/docs/Configuration_options.html#ielcd-enabled
+     */
+    static final boolean CONFIG_IELCD_ENABLED = System.getProperty("os.arch").equals("amd64");
 
     /**
      * Defines the interpolation method to use when pixels are scaled, deskewed or deslanted. bicubic offers the best quality but is slow as there
@@ -248,6 +260,7 @@ public class MICRVideoRecognizerE13BActivity extends MICRActivity {
 
             config.put("segmenter_accuracy", CONFIG_SEGMENTER_ACCURACY);
             config.put("backpropagation_enabled", CONFIG_BACKPROPAGATION_ENABLED);
+            config.put("ielcd_enabled", CONFIG_IELCD_ENABLED);
             config.put("interpolation", CONFIG_INTERPOLATION);
             config.put("format", CONFIG_FORMAT);
             config.put("roi", new JSONArray(CONFIG_ROI));

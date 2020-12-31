@@ -9,9 +9,11 @@
     https://github.com/DoubangoTelecom/ultimateMICR/blob/master/SDK_dist/samples/c++/recognizer/README.md
 	Usage: 
 		recognizer.py \
-			--image <path-to-image-with-plate-to-recognize> \
+			--image <path-to-image-with-check-to-recognize> \
 			[--assets <path-to-assets-folder>] \
             [--format <format-for-dtection:e13b/cmc7/e13b+cmc7>] \
+            [--backprop <whether-to-enable-backpropagation:true/false>] \
+            [--ielcd <whether-to-enable-IELCD:true/false>] \
 			[--tokenfile <path-to-license-token-file>] \
 			[--tokendata <base64-license-token-data>]
 	Example:
@@ -26,6 +28,7 @@ import ultimateMicrSdk
 import sys
 import argparse
 import json
+import platform
 import os.path
 try:
     import Image
@@ -67,6 +70,8 @@ if __name__ == "__main__":
     parser.add_argument("--image", required=True, help="Path to the image with MICR data to recognize")
     parser.add_argument("--assets", required=False, default="../../../assets", help="Path to the assets folder")
     parser.add_argument("--format", required=False, default="latin", help="Defines the MICR format to enable for the detection. Use e13b to look for E-13B lines only and cmc7 for CMC-7 lines only")
+    parser.add_argument("--backprop", required=False, default=platform.processor()=='i386', help="Whether to enable backpropagation to detect the MICR lines. Only CMC-7 font uses this option. More information at https://www.doubango.org/SDKs/micr/docs/Detection_techniques.html#backpropagation. Default: true for x86 CPUs and false for ARM CPUs.")
+    parser.add_argument("--ielcd", required=False, default=platform.processor()=='i386', help="Whether to enable Image Enhancement for Low Contrast Document (IELCD). More information at https://www.doubango.org/SDKs/micr/docs/IELCD.html#ielcd. Default: true for x86 CPUs and false for ARM CPUs.")    
     parser.add_argument("--tokenfile", required=False, default="", help="Path to license token file")
     parser.add_argument("--tokendata", required=False, default="", help="Base64 license token data")
 
@@ -104,6 +109,9 @@ if __name__ == "__main__":
         JSON_CONFIG["license_token_file"] = TOKEN_FILE
     if TOKEN_DATA:
         JSON_CONFIG["license_token_data"] = TOKEN_DATA
+
+    JSON_CONFIG["backprop"] = (args.backprop == "True")
+    JSON_CONFIG["ielcd"] = (args.ielcd == "True")
 
     # Initialize the engine
     checkResult("Init", 

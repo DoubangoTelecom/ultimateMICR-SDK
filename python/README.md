@@ -31,7 +31,7 @@ For example:
  ```
  If you have multiple python versions installed, then you may use a virtual env, a full path to the executable... Also, you may use `python3` instead of `python` to make sure you're using version 3. The python version used to build the extension should be the same as the one running the samples.
  
- This will build and install the extension in the current folder. The extension is named **_ultimateMrzMicr.pyd** on Windows and **_ultimateMrzMicr.so** on Linux.
+ This will build and install the extension in the current folder. The extension is named **_ultimateMicr.pyd** on Windows and **_ultimateMicr.so** on Linux.
  
  Now you're ready to run Python scripts using the extension. We highly recommend checking the recognizer sample: [ultimateMICR-SDK/samples/python/recognizer](../samples/python/recognizer)
  
