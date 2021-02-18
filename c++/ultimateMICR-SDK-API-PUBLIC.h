@@ -14,8 +14,8 @@ ultimateMICR-SDK public header
 #include <string>
 
 #define ULTMICR_SDK_VERSION_MAJOR		2
-#define ULTMICR_SDK_VERSION_MINOR		8
-#define ULTMICR_SDK_VERSION_MICRO		0
+#define ULTMICR_SDK_VERSION_MINOR		9
+#define ULTMICR_SDK_VERSION_MICRO		1
 
 // Windows's symbols export
 #if defined(SWIG)
@@ -282,6 +282,8 @@ namespace ultimateMicrSdk
 
 #if ULTMICR_SDK_OS_ANDROID && !defined(SWIG)
 		static void setAssetManager(AAssetManager* assetManager);
+		static void setJavaVM(JavaVM* vm);
+
 	private:
 		static bool s_bOweAAssetManager;
 #endif /* ULTMICR_SDK_OS_ANDROID */
