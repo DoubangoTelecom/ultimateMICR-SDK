@@ -86,6 +86,11 @@ public class UltMicrSdkEngine : IDisposable {
     return ret;
   }
 
+  public static int exifOrientation(IntPtr jpegMetaDataPtr, uint jpegMetaDataSize) {
+    int ret = ultimateMicrSdkPINVOKE.UltMicrSdkEngine_exifOrientation(jpegMetaDataPtr, jpegMetaDataSize);
+    return ret;
+  }
+
   public static UltMicrSdkResult requestRuntimeLicenseKey(bool rawInsteadOfJSON) {
     UltMicrSdkResult ret = new UltMicrSdkResult(ultimateMicrSdkPINVOKE.UltMicrSdkEngine_requestRuntimeLicenseKey__SWIG_0(rawInsteadOfJSON), true);
     return ret;

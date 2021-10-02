@@ -71,6 +71,10 @@ public class UltMicrSdkEngine {
     return new UltMicrSdkResult(ultimateMicrSdkJNI.UltMicrSdkEngine_process__SWIG_5(imageType.swigValue(), yPtr, uPtr, vPtr, widthInSamples, heightInSamples, yStrideInBytes, uStrideInBytes, vStrideInBytes), true);
   }
 
+  public static int exifOrientation(java.nio.ByteBuffer jpegMetaDataPtr, long jpegMetaDataSize) {
+    return ultimateMicrSdkJNI.UltMicrSdkEngine_exifOrientation(jpegMetaDataPtr, jpegMetaDataSize);
+  }
+
   public static UltMicrSdkResult requestRuntimeLicenseKey(boolean rawInsteadOfJSON) {
     return new UltMicrSdkResult(ultimateMicrSdkJNI.UltMicrSdkEngine_requestRuntimeLicenseKey__SWIG_0(rawInsteadOfJSON), true);
   }

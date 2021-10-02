@@ -255,6 +255,9 @@ class ultimateMicrSdkPINVOKE {
   [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_UltMicrSdkEngine_process__SWIG_5")]
   public static extern IntPtr UltMicrSdkEngine_process__SWIG_5(int jarg1, IntPtr jarg2, IntPtr jarg3, IntPtr jarg4, uint jarg5, uint jarg6, uint jarg7, uint jarg8, uint jarg9);
 
+  [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_UltMicrSdkEngine_exifOrientation")]
+  public static extern int UltMicrSdkEngine_exifOrientation(IntPtr jarg1, uint jarg2);
+
   [DllImport("ultimateMICR-SDK", EntryPoint="CSharp_UltMicrSdkEngine_requestRuntimeLicenseKey__SWIG_0")]
   public static extern IntPtr UltMicrSdkEngine_requestRuntimeLicenseKey__SWIG_0(bool jarg1);
 

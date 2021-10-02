@@ -102,6 +102,7 @@ use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
 *init = *ultimateMicrSdkc::UltMicrSdkEngine_init;
 *deInit = *ultimateMicrSdkc::UltMicrSdkEngine_deInit;
 *process = *ultimateMicrSdkc::UltMicrSdkEngine_process;
+*exifOrientation = *ultimateMicrSdkc::UltMicrSdkEngine_exifOrientation;
 *requestRuntimeLicenseKey = *ultimateMicrSdkc::UltMicrSdkEngine_requestRuntimeLicenseKey;
 *warmUp = *ultimateMicrSdkc::UltMicrSdkEngine_warmUp;
 sub DESTROY {

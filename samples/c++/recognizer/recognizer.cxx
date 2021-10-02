@@ -1,4 +1,4 @@
-/* Copyright (C) 2011-2020 Doubango Telecom <https://www.doubango.org>
+/* Copyright (C) 2011-2021 Doubango Telecom <https://www.doubango.org>
 * File author: Mamadou DIOP (Doubango Telecom, France).
 * License: For non commercial use only.
 * Source code: https://github.com/DoubangoTelecom/ultimateMICR-SDK
@@ -28,12 +28,45 @@
 */
 
 #include <ultimateMICR-SDK-API-PUBLIC.h>
-#include "../micr_utils.h"
+#include <sys/stat.h>
+#include <map>
 #if defined(_WIN32)
 #include <algorithm> // std::replace
 #endif
 
+// Not part of the SDK, used to decode images -> https://github.com/nothings/stb
+#define STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_STATIC
+#include "../stb_image.h"
+
 using namespace ultimateMicrSdk;
+
+// Asset manager used on Android to files in "assets" folder
+#if ULTMICR_SDK_OS_ANDROID 
+#	define ASSET_MGR_PARAM() __sdk_android_assetmgr, 
+#else
+#	define ASSET_MGR_PARAM() 
+#endif /* ULTMICR_SDK_OS_ANDROID */
+
+struct MicrFile {
+	int width = 0, height = 0, channels = 0;
+	stbi_uc* uncompressedDataPtr = nullptr;
+	void* compressedDataPtr = nullptr;
+	size_t compressedDataSize = 0;
+	FILE* filePtr = nullptr;
+	virtual ~MicrFile() {
+		if (uncompressedDataPtr) free(uncompressedDataPtr), uncompressedDataPtr = nullptr;
+		if (compressedDataPtr) free(compressedDataPtr), compressedDataPtr = nullptr;
+		if (filePtr) fclose(filePtr), filePtr = nullptr;
+	}
+	bool isValid() const {
+		return width > 0 && height > 0 && (channels == 1 || channels == 3 || channels == 4) && uncompressedDataPtr && compressedDataPtr && compressedDataSize > 0;
+	}
+};
+
+static void printUsage(const std::string& message = "");
+static bool parseArgs(int argc, char *argv[], std::map<std::string, std::string >& values);
+static bool readFile(const std::string& path, MicrFile& file);
 
 // Configuration for ANPR deep learning engine
 static const char* __jsonConfig =
@@ -50,15 +83,6 @@ static const char* __jsonConfig =
 "\"min_score\": 0.4,"
 "\"score_type\": \"min\""
 "";
-
-// Asset manager used on Android to files in "assets" folder
-#if ULTMICR_SDK_OS_ANDROID 
-#	define ASSET_MGR_PARAM() __sdk_android_assetmgr, 
-#else
-#	define ASSET_MGR_PARAM() 
-#endif /* ULTMICR_SDK_OS_ANDROID */
-
-static void printUsage(const std::string& message = "");
 
 /*
 * Entry point
@@ -79,7 +103,7 @@ int main(int argc, char *argv[])
 
 	// Parsing args
 	std::map<std::string, std::string > args;
-	if (!micrParseArgs(argc, argv, args)) {
+	if (!parseArgs(argc, argv, args)) {
 		printUsage();
 		return -1;
 	}
@@ -133,12 +157,13 @@ int main(int argc, char *argv[])
 	
 	jsonConfig += "}"; // end-of-config
 
-	// Decode image
-	MicrFile fileImage;
-	if (!micrDecodeFile(pathFileImage, fileImage)) {
-		ULTMICR_SDK_PRINT_INFO("Failed to read image file: %s", pathFileImage.c_str());
+	// Decode the file
+	MicrFile file;
+	if (!readFile(pathFileImage, file)) {
+		ULTMICR_SDK_PRINT_ERROR("Can't process %s", pathFileImage.c_str());
 		return -1;
 	}
+	ULTMICR_SDK_ASSERT(file.isValid());
 
 	// Init
 	ULTMICR_SDK_PRINT_INFO("Starting recognizer...");
@@ -149,10 +174,12 @@ int main(int argc, char *argv[])
 
 	// Recognize/Process
 	ULTMICR_SDK_ASSERT((result = UltMicrSdkEngine::process(
-		fileImage.type, // If you're using data from your camera then, the type would be YUV-family instead of RGB-family. https://www.doubango.org/SDKs/ccard/docs/cpp-api.html#_CPPv4N15ultimateMICRSdk22ULTMICR_SDK_IMAGE_TYPEE
-		fileImage.uncompressedData,
-		fileImage.width,
-		fileImage.height
+		file.channels == 4 ? ULTMICR_SDK_IMAGE_TYPE_RGBA32 : (file.channels == 1 ? ULTMICR_SDK_IMAGE_TYPE_Y : ULTMICR_SDK_IMAGE_TYPE_RGB24),
+		file.uncompressedDataPtr,
+		static_cast<size_t>(file.width),
+		static_cast<size_t>(file.height),
+		0, // stride
+		UltMicrSdkEngine::exifOrientation(file.compressedDataPtr, file.compressedDataSize)
 	)).isOK());
 	ULTMICR_SDK_PRINT_INFO("Processing done.");
 
@@ -202,4 +229,65 @@ static void printUsage(const std::string& message /*= ""*/)
 		"--tokendata: Base64 license token if you have one. If not provided then, the application will act like a trial version. Default: null.\n\n"
 		"********************************************************************************\n"
 	);
+}
+
+static bool parseArgs(int argc, char *argv[], std::map<std::string, std::string >& values)
+{
+	ULTMICR_SDK_ASSERT(argc > 0 && argv != nullptr);
+
+	values.clear();
+
+	// Make sure the number of arguments is even
+	if ((argc - 1) & 1) {
+		ULTMICR_SDK_PRINT_ERROR("Number of args must be even");
+		return false;
+	}
+
+	// Parsing
+	for (int index = 1; index < argc; index += 2) {
+		std::string key = argv[index];
+		if (key.size() < 2 || key[0] != '-' || key[1] != '-') {
+			ULTMICR_SDK_PRINT_ERROR("Invalid key: %s", key.c_str());
+			return false;
+		}
+		values[key] = argv[index + 1];
+	}
+
+	return true;
+}
+
+static bool readFile(const std::string& path, MicrFile& file)
+{
+	// Open the file
+	if ((file.filePtr = fopen(path.c_str(), "rb")) == nullptr) {
+		ULTMICR_SDK_PRINT_ERROR("Can't open %s", path.c_str());
+		return false;
+	}
+
+	// Retrieve file size
+	struct stat st_;
+	if (stat(path.c_str(), &st_) != 0) {
+		ULTMICR_SDK_PRINT_ERROR("File is empty %s", path.c_str());
+	}
+	file.compressedDataSize = static_cast<size_t>(st_.st_size);
+
+	// Alloc memory and read data
+	file.compressedDataPtr = ::malloc(file.compressedDataSize);
+	if (!file.compressedDataPtr) {
+		ULTMICR_SDK_PRINT_ERROR("Failed to alloc mem with size = %zu", file.compressedDataSize);
+		return false;
+	}
+	size_t read_;
+	if (file.compressedDataSize != (read_ = fread(file.compressedDataPtr, 1, file.compressedDataSize, file.filePtr))) {
+		ULTMICR_SDK_PRINT_ERROR("fread(%s) returned %zu instead of %zu", path.c_str(), read_, file.compressedDataSize);
+		return false;
+	}
+
+	// Decode image
+	file.uncompressedDataPtr = stbi_load_from_memory(
+		reinterpret_cast<stbi_uc const *>(file.compressedDataPtr), static_cast<int>(file.compressedDataSize),
+		&file.width, &file.height, &file.channels, 0
+	);
+
+	return file.isValid();
 }

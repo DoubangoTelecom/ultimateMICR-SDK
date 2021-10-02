@@ -14,7 +14,7 @@ ultimateMICR-SDK public header
 #include <string>
 
 #define ULTMICR_SDK_VERSION_MAJOR		2
-#define ULTMICR_SDK_VERSION_MINOR		10
+#define ULTMICR_SDK_VERSION_MINOR		12
 #define ULTMICR_SDK_VERSION_MICRO		0
 
 // Windows's symbols export
@@ -196,33 +196,34 @@ namespace ultimateMicrSdk
 
 #if ULTMICR_SDK_OS_ANDROID
 		/*! Initializes the engine. This function must be the first one to call.
-		This function is only available on Android.
-		\param assetManager AssetManager to use to read the content of the "assets" folder containing the models and configuration files.
-		\param jsonConfig JSON string containing configuration entries. May be null. More info at https://www.doubango.org/SDKs/mrz/docs/Configuration_options.html
-		\returns a result
+			This function is only available on Android.
+			\param assetManager AssetManager to use to read the content of the "assets" folder containing the models and configuration files.
+			\param jsonConfig JSON string containing configuration entries. May be null. More info at https://www.doubango.org/SDKs/mrz/docs/Configuration_options.html
+			\returns a result
 		*/
 		static UltMicrSdkResult init(jobject assetManager, const char* jsonConfig = nullptr);
 #else
 		/*! Initializes the engine. This function must be the first one to call.
-		\param jsonConfig JSON string containing configuration entries. May be null. More info at https://www.doubango.org/SDKs/mrz/docs/Configuration_options.html
-		\returns a \ref UltMicrSdkResult "result"
+			\param jsonConfig JSON string containing configuration entries. May be null. More info at https://www.doubango.org/SDKs/mrz/docs/Configuration_options.html
+			\returns a \ref UltMicrSdkResult "result"
 		*/
 		static UltMicrSdkResult init(const char* jsonConfig = nullptr);
 #endif /* ULTMICR_SDK_OS_ANDROID */
 
 		/*! DeInitialize the engine. This function must be the last one to be call.
-		Deallocate all the resources allocated using \ref init function.
-		\returns a \ref UltMicrSdkResult "result"
+			Deallocate all the resources allocated using \ref init function.
+			\returns a \ref UltMicrSdkResult "result"
 		*/
 		static UltMicrSdkResult deInit();
 
 		/*! Performs MICR detection and recognition operations.
-		\param imageType The image type.
-		\param imageData Pointer to the image data.
-		\param imageWidthInSamples Image width in samples.
-		\param imageHeightInSamples Image height in samples.
-		\param imageStrideInSamples Image stride in samples. Should be zero unless your the data is strided.
-		\param imageExifOrientation Image EXIF/JPEG orientation. Must be within [1, 8]. More information at https://www.impulseadventure.com/photo/exif-orientation.html
+			\param imageType The image type.
+			\param imageData Pointer to the image data.
+			\param imageWidthInSamples Image width in samples.
+			\param imageHeightInSamples Image height in samples.
+			\param imageStrideInSamples Image stride in samples. Should be zero unless your the data is strided.
+			\param imageExifOrientation Image EXIF/JPEG orientation. Must be within [1, 8]. More information at https://www.impulseadventure.com/photo/exif-orientation.html
+			\returns a \ref UltAlprSdkResult "result"
 		*/
 		static UltMicrSdkResult process(
 			const ULTMICR_SDK_IMAGE_TYPE imageType,
@@ -234,17 +235,18 @@ namespace ultimateMicrSdk
 		);
 
 		/*! Performs MICR detection and recognition operations.
-		\param imageType The image type.
-		\param yPtr Pointer to the start of the Y (luma) samples.
-		\param uPtr Pointer to the start of the U (chroma) samples.
-		\param vPtr Pointer to the start of the V (chroma) samples.
-		\param widthInSamples Image width in samples.
-		\param heightInSamples Image height in samples.
-		\param yStrideInBytes Stride in bytes for the Y (luma) samples.
-		\param uStrideInBytes Stride in bytes for the U (chroma) samples.
-		\param vStrideInBytes Stride in bytes for the V (chroma) samples.
-		\param uvPixelStrideInBytes Pixel stride in bytes for the UV (chroma) samples. Should be 1 for planar and 2 for semi-planar formats. Set to 0 for auto-detect.
-		\param exifOrientation Image EXIF/JPEG orientation. Must be within [1, 8]. More information at https://www.impulseadventure.com/photo/exif-orientation.html
+			\param imageType The image type.
+			\param yPtr Pointer to the start of the Y (luma) samples.
+			\param uPtr Pointer to the start of the U (chroma) samples.
+			\param vPtr Pointer to the start of the V (chroma) samples.
+			\param widthInSamples Image width in samples.
+			\param heightInSamples Image height in samples.
+			\param yStrideInBytes Stride in bytes for the Y (luma) samples.
+			\param uStrideInBytes Stride in bytes for the U (chroma) samples.
+			\param vStrideInBytes Stride in bytes for the V (chroma) samples.
+			\param uvPixelStrideInBytes Pixel stride in bytes for the UV (chroma) samples. Should be 1 for planar and 2 for semi-planar formats. Set to 0 for auto-detect.
+			\param exifOrientation Image EXIF/JPEG orientation. Must be within [1, 8]. More information at https://www.impulseadventure.com/photo/exif-orientation.html
+			\returns a \ref UltAlprSdkResult "result"
 		*/
 		static UltMicrSdkResult process(
 			const ULTMICR_SDK_IMAGE_TYPE imageType,
@@ -260,23 +262,32 @@ namespace ultimateMicrSdk
 			const int exifOrientation = 1
 		);
 
+		/*! Retrieve EXIF orientation value from JPEG meta-data.
+			\param jpegMetaDataPtr Pointer to the meta-data.
+			\param jpegMetaDataSize Size of the meta-data.
+			\returns Image's EXIF/JPEG orientation. Must be within [1, 8]. More information at https://www.impulseadventure.com/photo/exif-orientation.html.
+
+			Available since: 2.12.0
+		*/
+		static int exifOrientation(const void* jpegMetaDataPtr, const size_t jpegMetaDataSize);
+
 		/*! Build a unique runtime license key associated to this device.
-		You must \ref init "initialize" the engine before calling this function.
-		This function doesn't require internet connection.
-		The runtime key must be activated to obtain a token. The activation procedure is explained at https://www.doubango.org/SDKs/LicenseManager/docs/Activation_use_cases.html.
-		\param rawInsteadOfJSON Whether to output the runtime key as raw string intead of JSON entry. Requesting raw
-		string instead of JSON could be helpful for applications without JSON parser to extract the key.
-		\returns a \ref UltAlprSdkResult "result"
+			You must \ref init "initialize" the engine before calling this function.
+			This function doesn't require internet connection.
+			The runtime key must be activated to obtain a token. The activation procedure is explained at https://www.doubango.org/SDKs/LicenseManager/docs/Activation_use_cases.html.
+			\param rawInsteadOfJSON Whether to output the runtime key as raw string intead of JSON entry. Requesting raw
+			string instead of JSON could be helpful for applications without JSON parser to extract the key.
+			\returns a \ref UltAlprSdkResult "result"
 		*/
 		static UltMicrSdkResult requestRuntimeLicenseKey(const bool& rawInsteadOfJSON = false);
 
 		/*! Performs CPU/GPU warm up to prepare for inference.
-		Calling this function will force loading the deep learning models in the memory.
-		Loading the models could take few milliseconds depending on your CPU/GPU and this method
-		is ideal to prepare everything before starting to \ref process "process" the frames.
-		This function could be used to make sure the first inference will not be slow because of the loading.
-		\param imageType The image type you're expecting to use to \ref process "process" the frames.
-		\returns a \ref UltAlprSdkResult "result"
+			Calling this function will force loading the deep learning models in the memory.
+			Loading the models could take few milliseconds depending on your CPU/GPU and this method
+			is ideal to prepare everything before starting to \ref process "process" the frames.
+			This function could be used to make sure the first inference will not be slow because of the loading.
+			\param imageType The image type you're expecting to use to \ref process "process" the frames.
+			\returns a \ref UltAlprSdkResult "result"
 		*/
 		static UltMicrSdkResult warmUp(const ULTMICR_SDK_IMAGE_TYPE imageType);
 

@@ -114,6 +114,8 @@ class UltMicrSdkEngine(_object):
     if _newclass:deInit = staticmethod(_ultimateMicrSdk.UltMicrSdkEngine_deInit)
     __swig_getmethods__["process"] = lambda x: _ultimateMicrSdk.UltMicrSdkEngine_process
     if _newclass:process = staticmethod(_ultimateMicrSdk.UltMicrSdkEngine_process)
+    __swig_getmethods__["exifOrientation"] = lambda x: _ultimateMicrSdk.UltMicrSdkEngine_exifOrientation
+    if _newclass:exifOrientation = staticmethod(_ultimateMicrSdk.UltMicrSdkEngine_exifOrientation)
     __swig_getmethods__["requestRuntimeLicenseKey"] = lambda x: _ultimateMicrSdk.UltMicrSdkEngine_requestRuntimeLicenseKey
     if _newclass:requestRuntimeLicenseKey = staticmethod(_ultimateMicrSdk.UltMicrSdkEngine_requestRuntimeLicenseKey)
     __swig_getmethods__["warmUp"] = lambda x: _ultimateMicrSdk.UltMicrSdkEngine_warmUp
@@ -134,6 +136,10 @@ UltMicrSdkEngine_deInit = _ultimateMicrSdk.UltMicrSdkEngine_deInit
 def UltMicrSdkEngine_process(*args):
   return _ultimateMicrSdk.UltMicrSdkEngine_process(*args)
 UltMicrSdkEngine_process = _ultimateMicrSdk.UltMicrSdkEngine_process
+
+def UltMicrSdkEngine_exifOrientation(*args):
+  return _ultimateMicrSdk.UltMicrSdkEngine_exifOrientation(*args)
+UltMicrSdkEngine_exifOrientation = _ultimateMicrSdk.UltMicrSdkEngine_exifOrientation
 
 def UltMicrSdkEngine_requestRuntimeLicenseKey(rawInsteadOfJSON=False):
   return _ultimateMicrSdk.UltMicrSdkEngine_requestRuntimeLicenseKey(rawInsteadOfJSON)
