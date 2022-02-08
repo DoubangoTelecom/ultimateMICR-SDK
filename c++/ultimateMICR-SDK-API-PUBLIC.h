@@ -14,7 +14,7 @@ ultimateMICR-SDK public header
 #include <string>
 
 #define ULTMICR_SDK_VERSION_MAJOR		2
-#define ULTMICR_SDK_VERSION_MINOR		12
+#define ULTMICR_SDK_VERSION_MINOR		13
 #define ULTMICR_SDK_VERSION_MICRO		0
 
 // Windows's symbols export
