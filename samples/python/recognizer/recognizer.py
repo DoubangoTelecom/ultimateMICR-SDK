@@ -52,6 +52,11 @@ JSON_CONFIG = {
 }
 
 TAG = "[PythonRecognizer] "
+IMAGE_TYPES_MAPPING = { 
+        'RGB': ultimateMicrSdk.ULTMICR_SDK_IMAGE_TYPE_RGB24,
+        'RGBA': ultimateMicrSdk.ULTMICR_SDK_IMAGE_TYPE_RGBA32,
+        'L': ultimateMicrSdk.ULTMICR_SDK_IMAGE_TYPE_Y
+}
 
 # Check result
 def checkResult(operation, result):
@@ -60,6 +65,34 @@ def checkResult(operation, result):
         assert False
     else:
         print(TAG + operation + ": OK -> " + result.json())
+
+# Load image
+def load_pil_image(path):
+    from PIL import Image, ExifTags, ImageOps
+    import traceback
+    pil_image = Image.open(path)
+    img_exif = pil_image.getexif()
+    ret = {}
+    orientation  = 1
+    try:
+        if img_exif:
+            for tag, value in img_exif.items():
+                decoded = ExifTags.TAGS.get(tag, tag)
+                ret[decoded] = value
+            orientation  = ret["Orientation"]
+    except Exception as e:
+        print(TAG + "An exception occurred: {}".format(e))
+        traceback.print_exc()
+
+    if orientation > 1:
+        pil_image = ImageOps.exif_transpose(pil_image)
+
+    if pil_image.mode in IMAGE_TYPES_MAPPING:
+        imageType = IMAGE_TYPES_MAPPING[pil_image.mode]
+    else:
+        raise ValueError(TAG + "Invalid mode: %s" % pil_image.mode)
+
+    return pil_image, imageType
 
 # Entry point
 if __name__ == "__main__":
@@ -84,25 +117,11 @@ if __name__ == "__main__":
 
     # Check if image exist
     if not os.path.isfile(IMAGE):
-        print(TAG + "File doesn't exist: %s" % IMAGE)
-        assert False
+        raise OSError(TAG + "File doesn't exist: %s" % IMAGE)
 
-    # Decode the image
-    image = Image.open(IMAGE)
+    # Decode the image and extract type
+    image, imageType = load_pil_image(IMAGE)
     width, height = image.size
-    if image.mode == "RGB":
-        format = ultimateMicrSdk.ULTMICR_SDK_IMAGE_TYPE_RGB24
-    elif image.mode == "RGBA":
-        format = ultimateMicrSdk.ULTMICR_SDK_IMAGE_TYPE_RGBA32
-    elif image.mode == "L":
-        format = ultimateMicrSdk.ULTMICR_SDK_IMAGE_TYPE_Y
-    else:
-        print(TAG + "Invalid mode: %s" % image.mode)
-        assert False
-
-    # Read the EXIF orientation value
-    exif = image._getexif()
-    exifOrientation = exif[ORIENTATION_TAG[0]] if len(ORIENTATION_TAG) == 1 and exif != None else 1
 
     # Update JSON options using values from the command args
     if ASSETS:
@@ -128,13 +147,13 @@ if __name__ == "__main__":
     # once and do all the recognitions you need then, deinitialize it.
     checkResult("Process",
                 ultimateMicrSdk.UltMicrSdkEngine_process(
-                    format,
+                    imageType,
                     image.tobytes(), # type(x) == bytes
                     width,
                     height,
                     0, # stride
-                    exifOrientation
-                    )
+                    1 # exifOrientation (already rotated in load_image -> use default value: 1)
+                )
         )
 
     # Press any key to exit
