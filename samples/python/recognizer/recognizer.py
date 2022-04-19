@@ -30,10 +30,8 @@ import argparse
 import json
 import platform
 import os.path
-from PIL import Image, ExifTags
 
-# EXIF orientation TAG
-ORIENTATION_TAG = [orient for orient in ExifTags.TAGS.keys() if ExifTags.TAGS[orient] == 'Orientation']
+TAG = "[PythonRecognizer] "
 
 # Defines the default JSON configuration. More information at https://www.doubango.org/SDKs/micr/docs/Configuration_options.html
 JSON_CONFIG = {
@@ -51,7 +49,6 @@ JSON_CONFIG = {
     "score_type": "min"
 }
 
-TAG = "[PythonRecognizer] "
 IMAGE_TYPES_MAPPING = { 
         'RGB': ultimateMicrSdk.ULTMICR_SDK_IMAGE_TYPE_RGB24,
         'RGBA': ultimateMicrSdk.ULTMICR_SDK_IMAGE_TYPE_RGBA32,
