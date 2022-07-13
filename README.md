@@ -36,12 +36,12 @@ We outperform both [ABBYY](https://www.abbyy.com/ocr_sdk/) and [LEADTOOLS](https
 Using a single model we're able to accurately locate the [MICR (Magnetic ink character recognition)]( https://en.wikipedia.org/wiki/Magnetic_ink_character_recognition) zones, infer the type (**[E-13B](https://en.wikipedia.org/wiki/Magnetic_ink_character_recognition#E-13B)** or **[CMC-7](https://en.wikipedia.org/wiki/Magnetic_ink_character_recognition#CMC-7)**) and recognize the fields: **one-shot deep model**. 
 The performance gap between us and the other companies is more important for **[CMC-7](https://en.wikipedia.org/wiki/Magnetic_ink_character_recognition#CMC-7)** format which is more challenging than **[E-13B](https://en.wikipedia.org/wiki/Magnetic_ink_character_recognition#E-13B)**.
 
-The next [video](https://youtu.be/1GiMcpYuQdo) ([https://youtu.be/1GiMcpYuQdo](https://youtu.be/1GiMcpYuQdo)) shows [MICRVideoRecognizer-E13B sample](#Sample-applications-Video-Recognizer-e13b) running on Android: <br />
-[![MICRVideoRecognizer-E13B Running on Android](https://www.doubango.org/SDKs/micr/docs/_images/vlcsnap-2020-03-29-06h32m47s066.jpg)](https://www.youtube.com/watch?v=1GiMcpYuQdo)
+The next [video](https://doubango.org/videos/micr/e13b-x264.mp4) shows [MICRVideoRecognizer-E13B sample](#Sample-applications-Video-Recognizer-e13b) running on Android: <br />
+[![MICRVideoRecognizer-E13B Running on Android](https://www.doubango.org/SDKs/micr/docs/_images/vlcsnap-2020-03-29-06h32m47s066.jpg)](https://doubango.org/videos/micr/e13b-x264.mp4)
 <hr />
 
-The next [video](https://youtu.be/ManYVDj-Pt4) ([https://youtu.be/ManYVDj-Pt4](https://youtu.be/ManYVDj-Pt4)) shows [MICRVideoRecognizer-CMC7 sample](#Sample-applications-Video-Recognizer-cmc7) running on Android: <br />
-[![MICRVideoRecognizer-CMC7 Running on Android](https://www.doubango.org/SDKs/micr/docs/_images/vlcsnap-2020-03-29-06h29m05s771.jpg)](https://www.youtube.com/watch?v=ManYVDj-Pt4)
+The next [video](https://doubango.org/videos/micr/cmc7-x264.mp4) shows [MICRVideoRecognizer-CMC7 sample](#Sample-applications-Video-Recognizer-cmc7) running on Android: <br />
+[![MICRVideoRecognizer-CMC7 Running on Android](https://www.doubango.org/SDKs/micr/docs/_images/vlcsnap-2020-03-29-06h29m05s771.jpg)](https://doubango.org/videos/micr/cmc7-x264.mp4)
 <hr />
 
 This technology is a key component of [Remote Deposit Capture](https://www.remotedepositcapture.com/overview/rdc.overview.aspx) applications to process bank checks sent using mobile phones or scanners. **It's a must have** technology for any [FinTech](https://en.wikipedia.org/wiki/Financial_technology) company.
